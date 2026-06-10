@@ -61,8 +61,8 @@
     z-index: 10;
     border: none;
     cursor: pointer;
-    font-family: 'Caveat', cursive;
-    font-size: 16px;
+    font-family: 'Caveat', cursive; 'Magneto', cursive;
+    font-size: 14px;
     font-weight: 600;
     letter-spacing: 0.02em;
     padding: 6px 18px;
@@ -76,11 +76,24 @@
 
   /* Жёлтая (имя) */
   .pill-yellow {
-    background: #FEE643;
-    color: #282828;
-    top: 20px;
-    left: 125px; /* 100px аватар + 5px отступ + 3px border */
-  }
+  width: 160px;
+  height: 45px;
+  top: 20px;
+  left: 125px;
+  padding: 0;
+  border-radius: 0;
+  background: #F5E642;
+  color: #111;
+  font-family: 'Magneto', cursive;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 125%;
+  letter-spacing: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  clip-path: polygon(8% 0%, 92% 0%, 100% 50%, 92% 100%, 8% 100%, 0% 50%);
+}
 
   /* Серая (Project / Back) */
   .pill-gray {
