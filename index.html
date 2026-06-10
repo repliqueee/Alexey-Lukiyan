@@ -5,15 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Alexey Lukiyan</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap');
-
+  /* ===== ШРИФТЫ ===== */
+  @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Inter:wght@400;500&display=swap');
   @font-face {
-    font-family: 'Magneto';
-    src: url('Magneto.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-  }
+  font-family: 'Magneto';
+  src: url('Magneto.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
 
+  /* ===== СБРОС И БАЗОВЫЕ СТИЛИ ===== */
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   html, body {
@@ -25,6 +26,7 @@
     background: #000;
   }
 
+  /* ===== ЭКРАНЫ (SPA-логика) ===== */
   .screen {
     position: fixed;
     inset: 0;
@@ -32,8 +34,12 @@
     opacity: 0;
     transition: opacity 0.35s ease;
   }
-  .screen.active { display: block; opacity: 1; }
+  .screen.active {
+    display: block;
+    opacity: 1;
+  }
 
+  /* ===== ФОНОВАЯ КАРТИНКА ===== */
   .bg {
     position: absolute;
     inset: 0;
@@ -42,24 +48,31 @@
     background-repeat: no-repeat;
   }
 
-  #avatar,
-  #avatar-proj {
+  /* ===== АВАТАРКА ===== */
+  #avatar {
     position: absolute;
     top: 20px;
     left: 20px;
     width: 100px;
     height: 100px;
     object-fit: cover;
-    border-radius: 0;
+    border-radius: 0px;
     z-index: 10;
     cursor: pointer;
   }
 
+  /* ===== КНОПКИ-ПИЛЮЛИ (Alexey Lukiyan / Project / Back) ===== */
   .pill-btn {
     position: absolute;
     z-index: 10;
     border: none;
     cursor: pointer;
+    font-family: 'Caveat', cursive;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    padding: 6px 18px;
+    border-radius: 999px;
     transition: transform 0.12s ease, box-shadow 0.12s ease;
     white-space: nowrap;
     user-select: none;
@@ -67,40 +80,42 @@
   .pill-btn:hover { transform: scale(1.04); }
   .pill-btn:active { transform: scale(0.97); }
 
-  .pill-yellow {
-    width: 160px;
-    height: 45px;
-    top: 20px;
-    left: 125px;
-    padding: 0;
-    border-radius: 0;
-    background: #F5E642;
-    color: #111;
-    font-family: 'Magneto', cursive;
-    font-size: 14px;
-    font-weight: normal;
-    line-height: 125%;
-    letter-spacing: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    clip-path: polygon(5% 0%, 95% 0%, 100% 50%, 95% 100%, 5% 100%, 0% 50%);
-    -webkit-clip-path: polygon(5% 0%, 95% 0%, 100% 50%, 95% 100%, 5% 100%, 0% 50%);
-  }
+  /* Жёлтая (имя) */
+ .pill-yellow {
+  width: 160px;
+  height: 45px;
+  top: 20px;
+  left: 125px;
+  padding: 0;
+  border-radius: 0;
+  background: #F5E642;
+  color: #111;
+  font-family: 'Magneto', cursive;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 125%;
+  letter-spacing: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  clip-path: polygon(8% 0%, 92% 0%, 100% 50%, 92% 100%, 8% 100%, 0% 50%);
+}
 
+  /* Серая (Project / Back) */
   .pill-gray {
-    background: #282828;
-    color: #FFFFFF;
-    font-family: 'Magneto', cursive;
-    font-size: 14px;
-    line-height: 125%;
-    letter-spacing: 0;
-    padding: 6px 18px;
-    border-radius: 999px;
-    top: 70px;
-    left: 157px;
+    background: #E0E0E0;
+    color: #111;
+    top: 50px; /* 16px + ~28px высота жёлтой + 5px */
+    left: 124px;
   }
 
+  /* ===== ИНФО-ПЛАШКИ (виджеты) ===== */
+  /*
+    Все плашки имеют высоту строго 93px.
+    Ширину каждого типа задай через отдельный класс ниже.
+    overflow-y: auto — скролл при переполнении.
+    Перетаскивание — через JS.
+  */
   .panel {
     position: absolute;
     height: 93px;
@@ -115,52 +130,102 @@
     color: #222;
     cursor: grab;
     display: none;
+    /* плавное появление */
     opacity: 0;
     transition: opacity 0.25s ease;
+    /* тонкий скроллбар */
     scrollbar-width: thin;
     scrollbar-color: #bbb transparent;
   }
   .panel::-webkit-scrollbar { width: 5px; }
   .panel::-webkit-scrollbar-thumb { background: #ccc; border-radius: 4px; }
-  .panel.visible { display: block; opacity: 1; }
+  .panel.visible {
+    display: block;
+    opacity: 1;
+  }
   .panel.dragging { cursor: grabbing; box-shadow: 0 6px 24px rgba(0,0,0,0.18); }
 
-  .panel--info    { width: 380px; }
-  .panel--project { width: 200px; }
-  .panel--desc    { width: 570px; }
+  /* === Уникальные ширины для каждого типа плашки === */
+  /* ширину легко менять — найди нужный класс */
+  .panel--info    { width: 380px; } /* плашка "Обо мне" */
+  .panel--project { width: 200px; } /* плашка "Проекты" */
+  .panel--desc    { width: 570px; } /* плашка с описанием проекта / картинки */
 
-  .projects-grid { display: flex; gap: 0; }
+  /* ===== СТИЛИ ВНУТРИ ПЛАШКИ ПРОЕКТОВ ===== */
+  .projects-grid {
+    display: flex;
+    gap: 0;
+  }
   .categories-col {
     min-width: 70px;
     border-right: 1px solid #ddd;
     padding-right: 8px;
     margin-right: 8px;
   }
-  .cat-item { padding: 1px 0; cursor: pointer; color: #555; white-space: nowrap; }
+  .cat-item {
+    padding: 1px 0;
+    cursor: pointer;
+    color: #555;
+    white-space: nowrap;
+  }
   .cat-item:hover { color: #000; }
   .cat-item.active { color: #000; font-weight: 600; }
   .cat-item::before { content: '▸ '; }
-  .projects-col { flex: 1; overflow-y: auto; max-height: 77px; }
-  .proj-item { padding: 1px 0; cursor: pointer; color: #333; white-space: nowrap; }
+  .cat-item.active::before { content: '▸ '; color: #000; }
+
+  .projects-col {
+    flex: 1;
+    overflow-y: auto;
+    max-height: 77px;
+  }
+  .proj-item {
+    padding: 1px 0;
+    cursor: pointer;
+    color: #333;
+    white-space: nowrap;
+  }
   .proj-item:hover { text-decoration: underline; }
 
-  .info-lead { display: flex; gap: 4px; margin-bottom: 4px; }
-  .info-lead::before { content: '▸'; flex-shrink: 0; }
+  /* ===== СТИЛИ ПЛАШКИ "ИНФО" ===== */
+  .info-lead {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 4px;
+  }
+  .info-lead::before { content: '▸'; flex-shrink: 0; margin-top: 0; }
   .info-text { flex: 1; }
-  .info-link { display: block; margin-top: 6px; color: #1a6aff; text-decoration: underline; cursor: pointer; }
+  .info-link {
+    display: block;
+    margin-top: 6px;
+    color: #1a6aff;
+    text-decoration: underline;
+    cursor: pointer;
+  }
 
-  #screen-project .bg { background-color: #fff; }
+  /* ===== СТРАНИЦА ПРОЕКТА ===== */
+  #screen-project .bg,
+  #screen-image .bg {
+    background-color: #fff;
+  }
 
+  /* Колонка превью справа */
   .thumbs-col {
     position: absolute;
-    right: 16px; top: 16px; bottom: 16px;
+    right: 16px;
+    top: 16px;
+    bottom: 16px;
     width: 160px;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
     gap: 8px;
     z-index: 10;
+    scrollbar-width: thin;
+    scrollbar-color: #ccc transparent;
   }
+  .thumbs-col::-webkit-scrollbar { width: 4px; }
+  .thumbs-col::-webkit-scrollbar-thumb { background: #ccc; }
+
   .thumb-img {
     width: 100%;
     aspect-ratio: 1;
@@ -173,9 +238,13 @@
   .thumb-img:hover { border-color: #F5E642; }
   .thumb-img.active { border-color: #111; }
 
+  /* Главная картинка проекта (центр экрана) */
   .main-image-area {
     position: absolute;
-    left: 16px; right: 192px; top: 130px; bottom: 16px;
+    left: 16px;
+    right: 192px; /* 160px колонка + 16*2 */
+    top: 130px;
+    bottom: 16px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -188,37 +257,79 @@
     transition: opacity 0.2s ease;
   }
 
+  /* Кнопка "Back to images" */
   .back-images-btn {
     position: absolute;
-    bottom: 16px; left: 16px;
+    bottom: 16px;
+    left: 16px;
     z-index: 15;
     background: #F5E642;
     border: none;
     border-radius: 999px;
-    font-family: 'Magneto', cursive;
+    font-family: 'Caveat', cursive;
     font-size: 14px;
+    font-weight: 600;
     padding: 5px 14px;
     cursor: pointer;
     display: none;
   }
   .back-images-btn.visible { display: block; }
 
+  /* ===== МОБИЛЬНЫЕ СТИЛИ ===== */
   @media (max-width: 640px) {
-    #avatar, #avatar-proj { width: 70px; height: 70px; top: 10px; left: 10px; }
-    .pill-yellow { left: 88px; top: 10px; width: 160px; height: 45px; }
-    .pill-gray { left: 88px; top: 60px; }
-    .panel { position: fixed !important; left: 10px !important; right: 10px !important; width: auto !important; }
-    .panel--info, .panel--project, .panel--desc { top: 90px !important; }
+    #avatar { width: 70px; height: 70px; top: 10px; left: 10px; }
+    .pill-yellow { left: 88px; top: 10px; font-size: 14px; }
+    .pill-gray   { left: 88px; top: 44px; font-size: 13px; }
+
+    .panel {
+      position: fixed !important;
+      left: 10px !important;
+      right: 10px !important;
+      width: auto !important;
+      cursor: default;
+    }
+    .panel--info  { top: 90px !important; }
+    .panel--project { top: 90px !important; }
+    .panel--desc  { top: 90px !important; }
+
+    .thumbs-col {
+      flex-direction: row;
+      width: auto;
+      right: 0; left: 0;
+      top: auto;
+      bottom: 0;
+      height: 80px;
+      overflow-x: auto;
+      overflow-y: hidden;
+    }
+    .thumb-img { width: 70px; height: 70px; aspect-ratio: unset; flex-shrink: 0; }
+    .main-image-area { right: 16px; bottom: 96px; top: 200px; }
   }
 </style>
 </head>
 <body>
 
+<!-- ============================================================ -->
+<!-- ДАННЫЕ САЙТА — РЕДАКТИРУЙ ЗДЕСЬ                             -->
+<!-- ============================================================ -->
 <script>
+// ================================================================
+// НАСТРОЙКИ САЙТА
+// Все данные в одном месте — меняй под себя!
+// ================================================================
+
 const SITE = {
+
+  // --- Личная информация ---
   name: "Alexey Lukiyan",
+
+  // Путь к фоновой картинке главной страницы
   bgImage: "YOFEN.png",
-  avatar: "ava.png",
+
+  // Путь к аватарке (строго 100×100 будет масштабирована через CSS)
+  avatar: "Yofen_1_png.png",
+
+  // Текст плашки "Обо мне" (HTML допустим)
   about: `
     <div class="info-lead">
       <span class="info-text">
@@ -230,22 +341,484 @@ const SITE = {
     </div>
     <a class="info-link" href="mailto:infoalexeylukiyan@gmail.com">Say hello: infoalexeylukiyan@gmail.com</a>
   `,
+
+  // --- Проекты ---
+  // Каждый проект:
+  //   id        — уникальный идентификатор
+  //   title     — название
+  //   category  — одна из: Poster | Logo | Website | Cover | Other
+  //   bg        — фон страницы проекта (путь к файлу или CSS-цвет)
+  //   desc      — общее описание проекта (текст плашки на странице проекта)
+  //   images    — массив картинок проекта:
+  //                 src  — путь к файлу
+  //                 desc — описание этой конкретной картинки (для плашки при клике)
   projects: [
     {
-      id: "yofen", title: "Yo-fen Festival", category: "Poster", bg: "#f5f5f5",
-      desc: `Yo-fen Festival is a conceptual music festival in Berlin...`,
+      id: "yofen",
+      title: "Yo-fen Festival",
+      category: "Poster",
+      bg: "#f5f5f5",
+      desc: `Yo-fen Festival is a conceptual music festival in Berlin that brings together the contemporary electronic music scene, ranging from hyperpop and glitch to experimental electronic music. The goal of the project was to create a visual system capable of reflecting the city's industrial aesthetic and the chaotic nature of contemporary music.<br><br>The development is based on a research project that brought together three leading European design schools: German rationalism, Dutch conceptualism, and French visual poetry.`,
       images: [
-        { src: "YOFEN.png", desc: "Poster #1..." },
-        { src: "Yofen_1_png.png", desc: "Poster #2..." },
-        { src: "Info_On.png", desc: "Poster #3..." }
+        {
+          src: "YOFEN.png",
+          desc: "Poster #1 — Main festival identity poster. Typographic system built on conflicting grid scales. The yellow accent references the city's signage culture."
+        },
+        {
+          src: "Yofen_1_png.png",
+          desc: "Poster #2 — Lineup announcement. Dense typographic hierarchy contrasting ultra-bold and hairline weights across three typeface families."
+        },
+        {
+          src: "Info_On.png",
+          desc: "Poster #3 — Schedule spread. Information design inspired by train timetables and German public transit wayfinding systems."
+        }
+      ]
+    },
+    {
+      id: "arche",
+      title: "Arche",
+      category: "Logo",
+      bg: "#eeeae5",
+      desc: `Arche — brand identity for an independent architecture studio. The visual language draws from structural blueprints and raw material textures, translated into a minimal mark system.`,
+      images: [
+        {
+          src: "Home.png",
+          desc: "Primary logotype — the letterforms reference architectural section drawings. The weight contrast between strokes mirrors load-bearing vs. infill elements in construction."
+        },
+        {
+          src: "Project.png",
+          desc: "Brand application — business card and letterhead system. Paper stocks and print finishing were chosen to echo the tactility of architectural material samples."
+        }
+      ]
+    },
+    {
+      id: "kanago",
+      title: "Kanago",
+      category: "Website",
+      bg: "#1a1a1a",
+      desc: `Kanago — website and digital identity for a music collective. Dark interface, kinetic typography, and generative noise textures form a system that communicates controlled chaos.`,
+      images: [
+        {
+          src: "Home.png",
+          desc: "Homepage — above-the-fold hero section. The scrolling ticker replicates the information overload of a real-time music feed."
+        },
+        {
+          src: "Info_On.png",
+          desc: "Archive page — release catalog. Monospace grid with alternating density creates visual rhythm across 80+ entries."
+        }
+      ]
+    },
+    {
+      id: "nosoul",
+      title: "No South Without Boy",
+      category: "Cover",
+      bg: "#e8e2d9",
+      desc: `Album artwork for an ambient/soul record. The visual concept explores the erasure of regional identity in post-industrial cities through double-exposure photography and grain.`,
+      images: [
+        {
+          src: "Project.png",
+          desc: "Front cover — double-exposure composite. The layering of two geographic aerial photographs produces an image that is simultaneously specific and unplaceable."
+        }
+      ]
+    },
+    {
+      id: "nostalgia",
+      title: "Nostalgia",
+      category: "Poster",
+      bg: "#f0ece6",
+      desc: `A series of posters for a retrospective film screening programme. The visual language is built entirely from found imagery and period-accurate reproduction techniques.`,
+      images: [
+        {
+          src: "Home.png",
+          desc: "Series poster — offset print simulation. Deliberate misregistration and halftone breakup reference the deterioration of analogue reproduction over time."
+        }
+      ]
+    },
+    {
+      id: "artmercial",
+      title: "Artmercial Games",
+      category: "Other",
+      bg: "#111",
+      desc: `Artmercial Games — editorial and identity project for a speculative sports brand that treats competitive gaming as high art. Combines the visual language of luxury fashion with esports iconography.`,
+      images: [
+        {
+          src: "Info_On.png",
+          desc: "Editorial spread — the spreads function as both a catalogue and a manifesto, refusing the distinction between product and artwork."
+        }
+      ]
+    },
+    {
+      id: "cherry",
+      title: "Cherry Orchard",
+      category: "Other",
+      bg: "#fdf6ee",
+      desc: `Stage design visual package for a contemporary restaging of Chekhov's Cherry Orchard. The graphic system translates the play's themes of loss and transition into a formal language of fading and overprinting.`,
+      images: [
+        {
+          src: "Project.png",
+          desc: "Programme cover — the repeated orchard motif degrades across successive printings, enacting the play's central metaphor through process."
+        }
+      ]
+    },
+    {
+      id: "child",
+      title: "Child",
+      category: "Logo",
+      bg: "#fafafa",
+      desc: `Child — wordmark and identity for a children's creative studio. Designed to feel authored rather than corporate: intentionally imperfect geometry, hand-modified letterforms.`,
+      images: [
+        {
+          src: "Yofen_1_png.png",
+          desc: "Wordmark — the letterforms were drawn by hand and then systematically corrected until they sit at the boundary between childlike spontaneity and professional control."
+        }
       ]
     }
-    /* ... остальные проекты — см. полный файл ... */
   ]
 };
+
+// ================================================================
+// Все категории (порядок отображения в плашке проектов)
+// ================================================================
 const CATEGORIES = ["Poster", "Logo", "Website", "Cover", "Other"];
 </script>
 
-<!-- HTML + JS — см. полный файл index.html -->
+<!-- ============================================================ -->
+<!-- ЭКРАН 1: ГЛАВНАЯ                                             -->
+<!-- ============================================================ -->
+<div id="screen-home" class="screen active">
+  <div class="bg" id="home-bg"></div>
+
+  <img id="avatar" src="" alt="Avatar" />
+
+  <button class="pill-btn pill-yellow" id="btn-name"></button>
+  <button class="pill-btn pill-gray"   id="btn-project">Project</button>
+
+  <!-- Плашка "Обо мне" -->
+  <div class="panel panel--info" id="panel-info"></div>
+
+  <!-- Плашка "Проекты" -->
+  <div class="panel panel--project" id="panel-projects">
+    <div class="projects-grid">
+      <div class="categories-col" id="cats-list"></div>
+      <div class="projects-col"   id="proj-list"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- ЭКРАН 2: СТРАНИЦА ПРОЕКТА                                    -->
+<!-- ============================================================ -->
+<div id="screen-project" class="screen">
+  <div class="bg" id="project-bg"></div>
+
+  <img id="avatar-proj" src="" alt="Avatar"
+       style="position:absolute;top:16px;left:16px;width:100px;height:100px;object-fit:cover;border-radius:6px;z-index:10;" />
+
+  <button class="pill-btn pill-yellow" id="btn-name-proj"
+          style="position:absolute;top:16px;left:124px;"></button>
+  <button class="pill-btn pill-gray" id="btn-back"
+          style="position:absolute;top:50px;left:124px;">Back</button>
+
+  <!-- Плашка с описанием проекта -->
+  <div class="panel panel--desc" id="panel-desc"></div>
+
+  <!-- Галерея превью (правая колонка) -->
+  <div class="thumbs-col" id="thumbs-col"></div>
+
+  <!-- Большая картинка по центру -->
+  <div class="main-image-area" id="main-image-area">
+    <img id="main-image" src="" alt="" />
+  </div>
+
+  <!-- Кнопка вернуться к списку картинок (появляется при просмотре) -->
+  <button class="back-images-btn" id="btn-back-images">▸ Back to images</button>
+</div>
+
+<!-- ============================================================ -->
+<!-- JS: ЛОГИКА SPA                                               -->
+<!-- ============================================================ -->
+<script>
+// ================================================================
+// СОСТОЯНИЕ ПРИЛОЖЕНИЯ
+// ================================================================
+let state = {
+  currentProject: null,  // объект текущего проекта
+  currentImage: null,    // индекс текущей картинки (null = не выбрана)
+  activeCat: "Poster",   // активная категория в плашке проектов
+};
+
+// ================================================================
+// УТИЛИТЫ
+// ================================================================
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => {
+    s.classList.remove('active');
+    s.style.display = 'none';
+    s.style.opacity = '0';
+  });
+  const el = document.getElementById(id);
+  el.style.display = 'block';
+  requestAnimationFrame(() => {
+    el.classList.add('active');
+    el.style.opacity = '1';
+  });
+}
+
+function showPanel(panel) {
+  panel.classList.add('visible');
+}
+function hidePanel(panel) {
+  panel.classList.remove('visible');
+}
+function togglePanel(panel) {
+  panel.classList.toggle('visible');
+}
+
+// ================================================================
+// ПЕРЕТАСКИВАНИЕ ПЛАШЕК (drag)
+// Отключается на тач-устройствах — там используется touch
+// ================================================================
+function makeDraggable(el) {
+  let startX, startY, startLeft, startTop;
+  const isMobile = () => window.innerWidth <= 640;
+
+  // --- Mouse drag ---
+  el.addEventListener('mousedown', e => {
+    if (isMobile()) return;
+    if (e.button !== 0) return;
+    e.preventDefault();
+    el.classList.add('dragging');
+    const rect = el.getBoundingClientRect();
+    startX = e.clientX;
+    startY = e.clientY;
+    startLeft = rect.left;
+    startTop  = rect.top;
+
+    function onMove(e) {
+      let newLeft = startLeft + (e.clientX - startX);
+      let newTop  = startTop  + (e.clientY - startY);
+      // Не даём уйти за пределы экрана
+      newLeft = Math.max(0, Math.min(window.innerWidth  - el.offsetWidth,  newLeft));
+      newTop  = Math.max(0, Math.min(window.innerHeight - el.offsetHeight, newTop));
+      el.style.left = newLeft + 'px';
+      el.style.top  = newTop  + 'px';
+    }
+    function onUp() {
+      el.classList.remove('dragging');
+      document.removeEventListener('mousemove', onMove);
+      document.removeEventListener('mouseup',   onUp);
+    }
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('mouseup',   onUp);
+  });
+
+  // --- Touch drag ---
+  el.addEventListener('touchstart', e => {
+    if (!isMobile()) return;
+    const touch = e.touches[0];
+    const rect = el.getBoundingClientRect();
+    startX = touch.clientX;
+    startY = touch.clientY;
+    startLeft = rect.left;
+    startTop  = rect.top;
+  }, { passive: true });
+
+  el.addEventListener('touchmove', e => {
+    if (!isMobile()) return;
+    e.preventDefault();
+    const touch = e.touches[0];
+    let newLeft = startLeft + (touch.clientX - startX);
+    let newTop  = startTop  + (touch.clientY - startY);
+    newLeft = Math.max(0, Math.min(window.innerWidth  - el.offsetWidth,  newLeft));
+    newTop  = Math.max(0, Math.min(window.innerHeight - el.offsetHeight, newTop));
+    el.style.left = newLeft + 'px';
+    el.style.top  = newTop  + 'px';
+  }, { passive: false });
+}
+
+// ================================================================
+// ИНИЦИАЛИЗАЦИЯ ГЛАВНОГО ЭКРАНА
+// ================================================================
+function initHome() {
+  // Фон
+  document.getElementById('home-bg').style.backgroundImage = `url('${SITE.bgImage}')`;
+  // Аватарка
+  document.getElementById('avatar').src = SITE.avatar;
+  // Кнопка имени
+  document.getElementById('btn-name').textContent = SITE.name;
+
+  // Плашка "Обо мне"
+  const panelInfo = document.getElementById('panel-info');
+  panelInfo.innerHTML = SITE.about;
+  // Начальная позиция плашки (правее кнопки)
+  panelInfo.style.top  = '16px';
+  panelInfo.style.left = '310px';
+  makeDraggable(panelInfo);
+
+  // Плашка "Проекты"
+  const panelProj = document.getElementById('panel-projects');
+  panelProj.style.top  = '50px';
+  panelProj.style.left = '310px';
+  makeDraggable(panelProj);
+  renderProjectsPanel(state.activeCat);
+
+  // --- Кнопки ---
+  document.getElementById('btn-name').addEventListener('click', () => {
+    // Закрываем проекты, открываем инфо
+    hidePanel(panelProj);
+    togglePanel(panelInfo);
+  });
+
+  document.getElementById('btn-project').addEventListener('click', () => {
+    // Закрываем инфо, открываем проекты
+    hidePanel(panelInfo);
+    togglePanel(panelProj);
+  });
+}
+
+// ================================================================
+// РЕНДЕР ПЛАШКИ ПРОЕКТОВ
+// ================================================================
+function renderProjectsPanel(activeCat) {
+  state.activeCat = activeCat;
+
+  // Категории
+  const catsList = document.getElementById('cats-list');
+  catsList.innerHTML = '';
+  CATEGORIES.forEach(cat => {
+    const el = document.createElement('div');
+    el.className = 'cat-item' + (cat === activeCat ? ' active' : '');
+    el.textContent = cat;
+    el.addEventListener('click', e => {
+      e.stopPropagation();
+      renderProjectsPanel(cat);
+    });
+    catsList.appendChild(el);
+  });
+
+  // Проекты по категории
+  const projList = document.getElementById('proj-list');
+  projList.innerHTML = '';
+  const filtered = SITE.projects.filter(p => p.category === activeCat);
+  filtered.forEach(proj => {
+    const el = document.createElement('div');
+    el.className = 'proj-item';
+    el.textContent = proj.title;
+    el.addEventListener('click', e => {
+      e.stopPropagation();
+      openProject(proj);
+    });
+    projList.appendChild(el);
+  });
+}
+
+// ================================================================
+// ОТКРЫТЬ ПРОЕКТ
+// ================================================================
+function openProject(proj) {
+  state.currentProject = proj;
+  state.currentImage = null;
+
+  // Фон страницы проекта
+  const bg = document.getElementById('project-bg');
+  if (proj.bg.startsWith('#') || proj.bg.startsWith('rgb')) {
+    bg.style.backgroundImage = 'none';
+    bg.style.backgroundColor = proj.bg;
+  } else {
+    bg.style.backgroundImage = `url('${proj.bg}')`;
+    bg.style.backgroundColor = '';
+  }
+
+  // Аватарка и имя
+  document.getElementById('avatar-proj').src = SITE.avatar;
+  document.getElementById('btn-name-proj').textContent = SITE.name;
+
+  // Плашка описания проекта
+  const panelDesc = document.getElementById('panel-desc');
+  panelDesc.innerHTML = proj.desc;
+  panelDesc.style.top  = '16px';
+  panelDesc.style.left = '230px';
+  if (!panelDesc._draggable) {
+    makeDraggable(panelDesc);
+    panelDesc._draggable = true;
+  }
+  showPanel(panelDesc);
+
+  // Превью картинок
+  const thumbsCol = document.getElementById('thumbs-col');
+  thumbsCol.innerHTML = '';
+  proj.images.forEach((img, i) => {
+    const el = document.createElement('img');
+    el.className = 'thumb-img';
+    el.src = img.src;
+    el.alt = `Image ${i+1}`;
+    el.addEventListener('click', () => openImage(i));
+    thumbsCol.appendChild(el);
+  });
+
+  // Главная картинка — первая по умолчанию
+  openImage(0);
+
+  // Кнопка Back
+  document.getElementById('btn-back-images').classList.remove('visible');
+
+  showScreen('screen-project');
+}
+
+// ================================================================
+// ОТКРЫТЬ КАРТИНКУ (детальный просмотр)
+// ================================================================
+function openImage(index) {
+  const proj = state.currentProject;
+  if (!proj) return;
+  state.currentImage = index;
+
+  const imgData = proj.images[index];
+
+  // Большая картинка
+  const mainImg = document.getElementById('main-image');
+  mainImg.style.opacity = '0';
+  mainImg.src = imgData.src;
+  mainImg.onload = () => { mainImg.style.opacity = '1'; };
+
+  // Обновляем плашку: описание ЭТОЙ картинки
+  const panelDesc = document.getElementById('panel-desc');
+  panelDesc.innerHTML = imgData.desc;
+  panelDesc.scrollTop = 0;
+
+  // Подсвечиваем активный превью
+  document.querySelectorAll('.thumb-img').forEach((el, i) => {
+    el.classList.toggle('active', i === index);
+  });
+}
+
+// ================================================================
+// КНОПКИ НАВИГАЦИИ НА СТРАНИЦЕ ПРОЕКТА
+// ================================================================
+document.getElementById('btn-back').addEventListener('click', () => {
+  // Возврат на главную (восстанавливаем плашку проектов открытой)
+  const panelDesc = document.getElementById('panel-desc');
+  hidePanel(panelDesc);
+  showScreen('screen-home');
+  // Показываем плашку проектов снова
+  showPanel(document.getElementById('panel-projects'));
+});
+
+document.getElementById('btn-back-images').addEventListener('click', () => {
+  // Сбросить выбранную картинку, показать описание проекта
+  const proj = state.currentProject;
+  if (!proj) return;
+  const panelDesc = document.getElementById('panel-desc');
+  panelDesc.innerHTML = proj.desc;
+  panelDesc.scrollTop = 0;
+  document.querySelectorAll('.thumb-img').forEach(el => el.classList.remove('active'));
+  document.getElementById('btn-back-images').classList.remove('visible');
+});
+
+// ================================================================
+// СТАРТ
+// ================================================================
+initHome();
+</script>
 </body>
 </html>
