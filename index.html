@@ -143,19 +143,14 @@
   
   /* ===== ИНФО-ПЛАШКИ (виджеты) ===== */
   /*
-    Все плашки имеют высоту строго 93px.
-    Ширину каждого типа задай через отдельный класс ниже.
-    overflow-y: auto — скролл при переполнении.
-    Перетаскивание — через JS.
+    УБРАНЫ жесткие paddings и height, чтобы базовый класс не ломал дочерние панели.
+    Оставлена только логика отображения, рамки и тени.
   */
   .panel {
     position: absolute;
-    height: 111.6px;
-    overflow-y: auto;
-    overflow-x: hidden;
+    overflow: hidden; /* Чтобы углы внутренних элементов не вылезали за рамку */
     background: rgba(255,255,255,0.92);
     border: 1px dashed #aaa;
-    padding: 9.6px 12px;
     z-index: 20;
     font-size: 13.2px;
     line-height: 1.5;
@@ -165,12 +160,7 @@
     /* плавное появление */
     opacity: 0;
     transition: opacity 0.25s ease;
-    /* тонкий скроллбар */
-    scrollbar-width: thin;
-    scrollbar-color: #bbb transparent;
   }
-  .panel::-webkit-scrollbar { width: 6px; }
-  .panel::-webkit-scrollbar-thumb { background: #ccc; border-radius: 4.8px; }
   .panel.visible {
     display: block;
     opacity: 1;
@@ -178,90 +168,97 @@
   .panel.dragging { cursor: grabbing; box-shadow: 0 7.2px 28.8px rgba(0,0,0,0.18); }
 
   /* === Уникальные ширины для каждого типа плашки === */
-  /* ширину легко менять — найди нужный класс */
-/* === Уникальные ширины для каждого типа плашки === */
-.panel--info {
-  position: absolute;
-  width: 600px;
-  height: 120px;
-  top: 24px;
-  left: 348px;
-  border: 0.6px dashed #282828;
-  background: #fff;
-  padding: 0;
-  overflow: hidden; /* Скрывает всё, что выходит за пределы */
-  
-  /* Анимация плавного появления всей плашки (если используется) */
-  opacity: 0;
-  transition: opacity 0.25s ease, transform 0.1s ease; 
-}
+  /* 
+    Теперь этот блок полностью управляет геометрией плашки "Обо мне".
+    Размеры и позиционирование встанут пиксель в пиксель.
+  */
+  .panel--info {
+    position: absolute;
+    width: 600px;
+    height: 120px; /* Чистая фиксированная высота без примесей */
+    top: 24px;     /* Идеально на одной линии с аватаркой и желтой кнопкой */
+    left: 354px;   /* Сдвинуто чуть левее, чтобы зазор от серой кнопки был аккуратным */
+    border: 0.6px dashed #282828;
+    background: #fff;
+    padding: 0;   /* Обнуляем padding базового класса */
+    overflow: hidden; 
+    
+    /* Синхронизируем анимацию */
+    transition: opacity 0.25s ease, transform 0.1s ease; 
+  }
 
-/* Этот класс включает видимость плашки */
-.panel--info.visible {
-  display: block; /* или flex, если нужно, но при absolute позиционировании полосы неважно */
-  opacity: 1;
-}
+  /* Этот класс включает видимость плашки */
+  .panel--info.visible {
+    display: block; 
+    opacity: 1;
+  }
 
-.panel--info .info-content {
-  box-sizing: border-box;
-  width: calc(100% - 14.4px); /* Вычитаем точную ширину полосы, чтобы текст под неё не залезал */
-  height: 100%;
-  padding: 10.8px 9.6px;
-  font-family: 'Helvetica', Arial, sans-serif !important;
-  font-size: 12px !important;
-  font-weight: 400;
-  line-height: 125%;
-  letter-spacing: 0;
-  color: #282828;
-  overflow-y: auto; /* Скролл только для текста */
-}
+  .panel--info .info-content {
+    box-sizing: border-box;
+    width: calc(100% - 14.4px); /* Вычитаем точную ширину полосы */
+    height: 100%;
+    padding: 12px 14px; /* Слегка увеличен отступ, чтобы текст стоял визуально ровно */
+    font-family: 'Helvetica', Arial, sans-serif !important;
+    font-size: 12px !important;
+    font-weight: 400;
+    line-height: 135%; /* Чуть больше воздуха для читаемости */
+    letter-spacing: 0;
+    color: #282828;
+    overflow-y: auto; 
+    scrollbar-width: thin;
+    scrollbar-color: #ccc transparent;
+  }
 
-.panel--info .info-content * {
-  font-size: 12px !important;
-  font-family: 'Helvetica', Arial, sans-serif !important;
-  line-height: 125% !important;
-}
+  /* Кастомный скроллбар для текстового блока (чтобы полоса справа не перекрывалась) */
+  .panel--info .info-content::-webkit-scrollbar { width: 4px; }
+  .panel--info .info-content::-webkit-scrollbar-thumb { background: #ccc; border-radius: 2px; }
 
-.panel--info .triangle {
-  display: inline-block;
-  vertical-align: middle;
-  width: 0;
-  height: 0;
-  border-left: 7.2px solid #282828;
-  border-top: 4.2px solid transparent;
-  border-bottom: 4.2px solid transparent;
-  margin: 0 4.8px 2.4px 0;
-}
+  .panel--info .info-content * {
+    font-size: 12px !important;
+    font-family: 'Helvetica', Arial, sans-serif !important;
+    line-height: 135% !important;
+  }
 
-.panel--info .info-text u {
-  text-decoration: underline;
-  text-decoration-thickness: 0.36px;
-  text-underline-offset: 0.6px;
-  text-decoration-skip-ink: auto;
-  color: #282828;
-}
+  .panel--info .triangle {
+    display: inline-block;
+    vertical-align: middle;
+    width: 0;
+    height: 0;
+    border-left: 7.2px solid #282828;
+    border-top: 4.2px solid transparent;
+    border-bottom: 4.2px solid transparent;
+    margin: 0 6px 2px 0; /* Выровнен отступ справа от стрелочки */
+  }
 
-.panel--info .info-link {
-  color: #0000FF;
-  text-decoration: underline;
-  text-decoration-thickness: 0.36px;
-  text-underline-offset: 0.6px;
-  text-decoration-skip-ink: auto;
-  cursor: pointer;
-}
+  .panel--info .info-text u {
+    text-decoration: underline;
+    text-decoration-thickness: 0.36px;
+    text-underline-offset: 0.6px;
+    text-decoration-skip-ink: auto;
+    color: #282828;
+  }
 
-/* ЖЕСТКОЕ И НАДЕЖНОЕ ПОЗИЦИОНИРОВАНИЕ ПОЛОСЫ */
-.panel--info .right-strip {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  width: 14.4px;
-  height: 100%;
-  background: #F0F0F0;
-  border-left: 0.6px dashed #282828;
-  z-index: 5; /* Гарантирует, что полоса всегда будет поверх фонов */
-}
+  .panel--info .info-link {
+    color: #0000FF;
+    text-decoration: underline;
+    text-decoration-thickness: 0.36px;
+    text-underline-offset: 0.6px;
+    text-decoration-skip-ink: auto;
+    cursor: pointer;
+  }
+
+  /* НАДЕЖНОЕ ПОЗИЦИОНИРОВАНИЕ ПОЛОСЫ */
+  .panel--info .right-strip {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 14.4px;
+    height: 100%;
+    background: #F0F0F0;
+    border-left: 0.6px dashed #282828;
+    z-index: 5; 
+  }
 
   /* ===== СТИЛИ ВНУТРИ ПЛАШКИ ПРОЕКТОВ ===== */
   .projects-grid {
