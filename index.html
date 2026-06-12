@@ -179,31 +179,32 @@
 
   /* === Уникальные ширины для каждого типа плашки === */
   /* ширину легко менять — найди нужный класс */
- .panel--info {
+.panel--info {
+  position: absolute;
   width: 419px;
   height: 93px;
   top: 20px;
   left: 290px;
   border: none;
-  outline: 0.5px dashed #282828;
+  outline: 0.5px solid #282828;
+  outline-offset: 0;
   background: #fff;
   padding: 0;
+  display: flex;
 }
   .panel--info .info-content {
-  width: 361px;
-  height: 62px;
-  margin: 5px 8px;
+  flex: 1;
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  padding: 9px 8px;
   font-family: 'Helvetica', Arial, sans-serif;
   font-weight: 400;
   font-size: 8px;
   line-height: 125%;
   letter-spacing: 0;
-}
-
-.panel--info .info-lead {
-  display: flex;
-  align-items: flex-start;
-  gap: 4px;
+  color: #282828;
+  overflow-y: auto;
 }
 
 .panel--info .triangle {
@@ -216,8 +217,11 @@
   margin-top: 2px;
 }
 
-.panel--info .info-text {
-  color: #282828;
+.panel--info .info-text u {
+  text-decoration: underline;
+  text-decoration-thickness: 0.24px; /* 3% от 8px */
+  text-underline-offset: 0.4px;      /* 5% от 8px */
+  text-decoration-skip-ink: auto;
 }
 
 .panel--info .info-link {
@@ -225,6 +229,9 @@
   margin-top: 4px;
   color: #0000FF;
   text-decoration: underline;
+  text-decoration-thickness: 0.24px;
+  text-underline-offset: 0.4px;
+  text-decoration-skip-ink: auto;
   cursor: pointer;
   font-family: 'Helvetica', Arial, sans-serif;
   font-weight: 400;
@@ -232,6 +239,13 @@
   line-height: 125%;
 }
 
+.panel--info .right-strip {
+  width: 10px;
+  height: 93px;
+  flex-shrink: 0;
+  outline: 0.5px solid #282828;
+  outline-offset: 0;
+}
   /* ===== СТИЛИ ВНУТРИ ПЛАШКИ ПРОЕКТОВ ===== */
   .projects-grid {
     display: flex;
@@ -266,22 +280,6 @@
     white-space: nowrap;
   }
   .proj-item:hover { text-decoration: underline; }
-
-  /* ===== СТИЛИ ПЛАШКИ "ИНФО" ===== */
-.info-lead {
-  display: flex;
-  gap: 4px;
-  margin-bottom: 4px;
-}
-.info-lead::before { content: '▸'; flex-shrink: 0; margin-top: 0; }
-.info-text { flex: 1; }
-.info-link {
-  display: block;
-  margin-top: 6px;
-  color: #1a6aff;
-  text-decoration: underline;
-  cursor: pointer;
-}
 
   /* ===== СТРАНИЦА ПРОЕКТА ===== */
   #screen-project .bg,
@@ -413,12 +411,13 @@ const SITE = {
   // Текст плашки "Обо мне" (HTML допустим)
 about: `
     <div class="info-content">
-      <div class="info-lead">
-        <div class="triangle"></div>
-        <span class="info-text">Alexey Lukiyan is an art director, author, and independent designer; based in Saint Petersburg. He works in various fields of design. He consciously avoids limiting himself to any specific framework. He is the founder of the Rebuilding Creativity and a member of the Kibo collective. CV can be viewed <a href="#" style="color:#0000FF">here</a>. He is open to collaboration.</span>
-      </div>
-      <a class="info-link" href="mailto:infoalexeylukiyan@gmail.com">Say hello: infoalexeylukiyan@gmail.com</a>
+      <div class="triangle"></div>
+      <span class="info-text">
+        <u>Alexey Lukiyan</u> is an art director, author, and independent designer; based in Saint Petersburg. He works in various fields of design. He consciously avoids limiting himself to any specific framework. He is the founder of the <u>Rebuilding Creativity</u> and a member of the <u>Kibo collective</u>. CV can be viewed here. He is open to collaboration.
+        <a class="info-link" href="mailto:infoalexeylukiyan@gmail.com"><u>Say hello: infoalexeylukiyan@gmail.com</u></a>
+      </span>
     </div>
+    <div class="right-strip"></div>
   `,
   // --- Проекты ---
   // Каждый проект:
