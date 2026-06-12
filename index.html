@@ -185,26 +185,33 @@
   height: 93px;
   top: 20px;
   left: 290px;
-  border: none;
-  outline: 0.5px solid #282828;
-  outline-offset: 0;
+  border: 0.5px dashed #282828;
   background: #fff;
   padding: 0;
   display: flex;
+  flex-direction: row;
+  overflow: hidden;
 }
-  .panel--info .info-content {
-  flex: 1;
+
+.panel--info .info-content {
+  flex: 1 1 auto;
   display: flex;
   gap: 8px;
   align-items: flex-start;
   padding: 9px 8px;
-  font-family: 'Helvetica', Arial, sans-serif;
+  font-family: 'Helvetica', Arial, sans-serif !important;
+  font-size: 8px !important;
   font-weight: 400;
-  font-size: 8px;
   line-height: 125%;
   letter-spacing: 0;
   color: #282828;
   overflow-y: auto;
+}
+
+.panel--info .info-content * {
+  font-size: 8px !important;
+  font-family: 'Helvetica', Arial, sans-serif !important;
+  line-height: 125% !important;
 }
 
 .panel--info .triangle {
@@ -219,13 +226,13 @@
 
 .panel--info .info-text u {
   text-decoration: underline;
-  text-decoration-thickness: 0.24px; /* 3% от 8px */
-  text-underline-offset: 0.4px;      /* 5% от 8px */
+  text-decoration-thickness: 0.24px;
+  text-underline-offset: 0.4px;
   text-decoration-skip-ink: auto;
 }
 
 .panel--info .info-link {
-  display: block;
+  display: inline;
   margin-top: 4px;
   color: #0000FF;
   text-decoration: underline;
@@ -233,18 +240,14 @@
   text-underline-offset: 0.4px;
   text-decoration-skip-ink: auto;
   cursor: pointer;
-  font-family: 'Helvetica', Arial, sans-serif;
-  font-weight: 400;
-  font-size: 8px;
-  line-height: 125%;
 }
 
 .panel--info .right-strip {
   width: 10px;
-  height: 93px;
+  height: 100%;
   flex-shrink: 0;
-  outline: 0.5px solid #282828;
-  outline-offset: 0;
+  background: #F0F0F0;
+  border-left: 0.5px dashed #282828;
 }
   /* ===== СТИЛИ ВНУТРИ ПЛАШКИ ПРОЕКТОВ ===== */
   .projects-grid {
