@@ -30,7 +30,7 @@
     width: 100%; height: 100%;
     overflow: hidden;
     font-family: 'Inter', sans-serif;
-    font-size: 12px;
+    font-size: 14.4px;
     color: #111;
   }
 
@@ -59,10 +59,10 @@
   /* ===== АВАТАРКА ===== */
   #avatar {
     position: absolute;
-    top: 20px;
-    left: 20px;
-    width: 100px;
-    height: 100px;
+    top: 24px;
+    left: 24px;
+    width: 120px;
+    height: 120px;
     object-fit: cover;
     border-radius: 0px;
     z-index: 10;
@@ -76,10 +76,10 @@
     border: none;
     cursor: pointer;
     font-family: 'Caveat', cursive;
-    font-size: 16px;
+    font-size: 19.2px;
     font-weight: 600;
     letter-spacing: 0.02em;
-    padding: 6px 18px;
+    padding: 7.2px 21.6px;
     border-radius: 999px;
     transition: transform 0.12s ease, box-shadow 0.12s ease;
     white-space: nowrap;
@@ -88,16 +88,16 @@
 
   /* Жёлтая (имя) */
  .pill-yellow {
-  width: 160px;
-  height: 45px;
-  top: 20px;
-  left: 125px;
+  width: 192px;
+  height: 54px;
+  top: 24px;
+  left: 150px;
   padding: 0;
   border-radius: 0;
   background: #FEE643;
   color: #282828;
   font-family: 'Magneto', cursive;
-  font-size: 14px;
+  font-size: 16.8px;
   font-weight: bold;        /* было normal */
   line-height: 125%;
   letter-spacing: 0;
@@ -118,27 +118,27 @@
 
   /* Серая (Project / Back) */
   .pill-gray {
-    width: 97px;
-    height: 45px;
-    top: 70px;
-    left: 157px;
+    width: 116.4px;
+    height: 54px;
+    top: 84px;
+    left: 188.4px;
     padding: 0;
     background: #282828;
     color: #FFFFFF;
     font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-size: 14px;
+    font-size: 16.8px;
     font-weight: 500;
     line-height: 125%;
     letter-spacing: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    clip-path: path(https://yqnn.github.io/svg-path-editor/#P=M48.5,0_C75.29,0_97,0_97,22.5_C97,45_75.29,45_48.5,45_C21.71,45_0,45_0,22.5_C0,0_21.71,0_48.5,0_Z);
+    clip-path: path('M58.2,0 C90.348,0 116.4,0 116.4,27 C116.4,54 90.348,54 58.2,54 C26.052,54 0,54 0,27 C0,0 26.052,0 58.2,0 Z');
   }
 
   .pill-gray span {
   display: inline-block;
-  transform: rotate(-11.65deg) translateY(-2px);
+  transform: rotate(-11.65deg) translateY(-2.4px);
 }
   
   /* ===== ИНФО-ПЛАШКИ (виджеты) ===== */
@@ -150,14 +150,14 @@
   */
   .panel {
     position: absolute;
-    height: 93px;
+    height: 111.6px;
     overflow-y: auto;
     overflow-x: hidden;
     background: rgba(255,255,255,0.92);
     border: 1px dashed #aaa;
-    padding: 8px 10px;
+    padding: 9.6px 12px;
     z-index: 20;
-    font-size: 11px;
+    font-size: 13.2px;
     line-height: 1.5;
     color: #222;
     cursor: grab;
@@ -169,23 +169,23 @@
     scrollbar-width: thin;
     scrollbar-color: #bbb transparent;
   }
-  .panel::-webkit-scrollbar { width: 5px; }
-  .panel::-webkit-scrollbar-thumb { background: #ccc; border-radius: 4px; }
+  .panel::-webkit-scrollbar { width: 6px; }
+  .panel::-webkit-scrollbar-thumb { background: #ccc; border-radius: 4.8px; }
   .panel.visible {
     display: block;
     opacity: 1;
   }
-  .panel.dragging { cursor: grabbing; box-shadow: 0 6px 24px rgba(0,0,0,0.18); }
+  .panel.dragging { cursor: grabbing; box-shadow: 0 7.2px 28.8px rgba(0,0,0,0.18); }
 
   /* === Уникальные ширины для каждого типа плашки === */
   /* ширину легко менять — найди нужный класс */
 .panel--info {
   position: absolute;
-  width: 500px;
-  height: 100px;
-  top: 20px;
-  left: 290px;
-  border: 0.5px dashed #282828;
+  width: 600px;
+  height: 120px;
+  top: 24px;
+  left: 348px;
+  border: 0.6px dashed #282828;
   background: #fff;
   padding: 0;
   display: flex;
@@ -195,9 +195,9 @@
 
 .panel--info .info-content {
   flex: 1 1 auto;
-  padding: 9px 8px;
+  padding: 10.8px 9.6px;
   font-family: 'Helvetica', Arial, sans-serif !important;
-  font-size: 10px !important;
+  font-size: 12px !important;
   font-weight: 400;
   line-height: 125%;
   letter-spacing: 0;
@@ -206,7 +206,7 @@
 }
 
 .panel--info .info-content * {
-  font-size: 10px !important;
+  font-size: 12px !important;
   font-family: 'Helvetica', Arial, sans-serif !important;
   line-height: 125% !important;
 }
@@ -215,16 +215,16 @@
   float: left;
   width: 0;
   height: 0;
-  border-left: 6px solid #282828;
-  border-top: 3.5px solid transparent;
-  border-bottom: 3.5px solid transparent;
-  margin: 2px 4px 0 0;
+  border-left: 7.2px solid #282828;
+  border-top: 4.2px solid transparent;
+  border-bottom: 4.2px solid transparent;
+  margin: 2.4px 4.8px 0 0;
 }
 
 .panel--info .info-text u {
   text-decoration: underline;
-  text-decoration-thickness: 0.3px;
-  text-underline-offset: 0.5px;
+  text-decoration-thickness: 0.36px;
+  text-underline-offset: 0.6px;
   text-decoration-skip-ink: auto;
   color: #282828;
 }
@@ -232,18 +232,18 @@
 .panel--info .info-link {
   color: #0000FF;
   text-decoration: underline;
-  text-decoration-thickness: 0.3px;
-  text-underline-offset: 0.5px;
+  text-decoration-thickness: 0.36px;
+  text-underline-offset: 0.6px;
   text-decoration-skip-ink: auto;
   cursor: pointer;
 }
 
 .panel--info .right-strip {
-  width: 12px;
+  width: 14.4px;
   height: 100%;
   flex-shrink: 0;
   background: #F0F0F0;
-  border-left: 0.5px dashed #282828;
+  border-left: 0.6px dashed #282828;
 }
   /* ===== СТИЛИ ВНУТРИ ПЛАШКИ ПРОЕКТОВ ===== */
   .projects-grid {
@@ -251,13 +251,13 @@
     gap: 0;
   }
   .categories-col {
-    min-width: 70px;
-    border-right: 1px solid #ddd;
-    padding-right: 8px;
-    margin-right: 8px;
+    min-width: 84px;
+    border-right: 1.2px solid #ddd;
+    padding-right: 9.6px;
+    margin-right: 9.6px;
   }
   .cat-item {
-    padding: 1px 0;
+    padding: 1.2px 0;
     cursor: pointer;
     color: #555;
     white-space: nowrap;
@@ -270,10 +270,10 @@
   .projects-col {
     flex: 1;
     overflow-y: auto;
-    max-height: 77px;
+    max-height: 92.4px;
   }
   .proj-item {
-    padding: 1px 0;
+    padding: 1.2px 0;
     cursor: pointer;
     color: #333;
     white-space: nowrap;
@@ -289,19 +289,19 @@
   /* Колонка превью справа */
   .thumbs-col {
     position: absolute;
-    right: 16px;
-    top: 16px;
-    bottom: 16px;
-    width: 160px;
+    right: 19.2px;
+    top: 19.2px;
+    bottom: 19.2px;
+    width: 192px;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 9.6px;
     z-index: 10;
     scrollbar-width: thin;
     scrollbar-color: #ccc transparent;
   }
-  .thumbs-col::-webkit-scrollbar { width: 4px; }
+  .thumbs-col::-webkit-scrollbar { width: 4.8px; }
   .thumbs-col::-webkit-scrollbar-thumb { background: #ccc; }
 
   .thumb-img {
@@ -309,9 +309,9 @@
     aspect-ratio: 1;
     object-fit: cover;
     cursor: pointer;
-    border: 2px solid transparent;
+    border: 2.4px solid transparent;
     transition: border-color 0.15s;
-    border-radius: 2px;
+    border-radius: 2.4px;
   }
   .thumb-img:hover { border-color: #F5E642; }
   .thumb-img.active { border-color: #111; }
@@ -319,10 +319,10 @@
   /* Главная картинка проекта (центр экрана) */
   .main-image-area {
     position: absolute;
-    left: 16px;
-    right: 192px; /* 160px колонка + 16*2 */
-    top: 130px;
-    bottom: 16px;
+    left: 19.2px;
+    right: 230.4px; /* 192px колонка + 19.2*2 */
+    top: 156px;
+    bottom: 19.2px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -338,16 +338,16 @@
   /* Кнопка "Back to images" */
   .back-images-btn {
     position: absolute;
-    bottom: 16px;
-    left: 16px;
+    bottom: 19.2px;
+    left: 19.2px;
     z-index: 15;
     background: #F5E642;
     border: none;
     border-radius: 999px;
     font-family: 'Caveat', cursive;
-    font-size: 14px;
+    font-size: 16.8px;
     font-weight: 600;
-    padding: 5px 14px;
+    padding: 6px 16.8px;
     cursor: pointer;
     display: none;
   }
@@ -355,22 +355,22 @@
 
   /* ===== МОБИЛЬНЫЕ СТИЛИ ===== */
   @media (max-width: 640px) {
-    #avatar { width: 70px; height: 70px; top: 10px; left: 10px; }
-    .pill-yellow { left: 88px; top: 10px; font-size: 14px; }
-    .pill-gray   { left: 88px; top: 44px; font-size: 13px; }
+    #avatar { width: 84px; height: 84px; top: 12px; left: 12px; }
+    .pill-yellow { left: 105.6px; top: 12px; font-size: 16.8px; }
+    .pill-gray   { left: 105.6px; top: 52.8px; font-size: 15.6px; }
 
     .panel {
       position: fixed !important;
-      left: 10px !important;
-      right: 10px !important;
+      left: 12px !important;
+      right: 12px !important;
       width: auto !important;
       cursor: default;
     }
-    .panel--info  { top: 90px !important; }
-    .panel--project { top: 90px !important; }
-    .panel--desc  { top: 90px !important; }
-    .panel--project { width: 200px; }
-.panel--desc    { width: 570px; }
+    .panel--info  { top: 108px !important; }
+    .panel--project { top: 108px !important; }
+    .panel--desc  { top: 108px !important; }
+    .panel--project { width: 240px; }
+.panel--desc    { width: 684px; }
 
     .thumbs-col {
       flex-direction: row;
@@ -378,12 +378,12 @@
       right: 0; left: 0;
       top: auto;
       bottom: 0;
-      height: 80px;
+      height: 96px;
       overflow-x: auto;
       overflow-y: hidden;
     }
-    .thumb-img { width: 70px; height: 70px; aspect-ratio: unset; flex-shrink: 0; }
-    .main-image-area { right: 16px; bottom: 96px; top: 200px; }
+    .thumb-img { width: 84px; height: 84px; aspect-ratio: unset; flex-shrink: 0; }
+    .main-image-area { right: 19.2px; bottom: 115.2px; top: 240px; }
   }
 </style>
 </head>
@@ -587,320 +587,4 @@ const CATEGORIES = ["Poster", "Logo", "Website", "Cover", "Other"];
   </div>
 </div>
 
-<!-- ============================================================ -->
-<!-- ЭКРАН 2: СТРАНИЦА ПРОЕКТА                                    -->
-<!-- ============================================================ -->
-<div id="screen-project" class="screen">
-  <div class="bg" id="project-bg"></div>
-
-  <img id="avatar-proj" src="" alt="Avatar"
-       style="position:absolute;top:16px;left:16px;width:100px;height:100px;object-fit:cover;border-radius:6px;z-index:10;" />
-
-  <button class="pill-btn pill-yellow" id="btn-name-proj"
-          style="position:absolute;top:16px;left:124px;"></button>
- <button class="pill-btn pill-gray" id="btn-back"
-          style="position:absolute;top:50px;left:124px;"><span>Back</span></button>
-
-  <!-- Плашка с описанием проекта -->
-  <div class="panel panel--desc" id="panel-desc"></div>
-
-  <!-- Галерея превью (правая колонка) -->
-  <div class="thumbs-col" id="thumbs-col"></div>
-
-  <!-- Большая картинка по центру -->
-  <div class="main-image-area" id="main-image-area">
-    <img id="main-image" src="" alt="" />
-  </div>
-
-  <!-- Кнопка вернуться к списку картинок (появляется при просмотре) -->
-  <button class="back-images-btn" id="btn-back-images">▸ Back to images</button>
-</div>
-
-<!-- ============================================================ -->
-<!-- JS: ЛОГИКА SPA                                               -->
-<!-- ============================================================ -->
-<script>
-// ================================================================
-// СОСТОЯНИЕ ПРИЛОЖЕНИЯ
-// ================================================================
-let state = {
-  currentProject: null,  // объект текущего проекта
-  currentImage: null,    // индекс текущей картинки (null = не выбрана)
-  activeCat: "Poster",   // активная категория в плашке проектов
-};
-
-// ================================================================
-// УТИЛИТЫ
-// ================================================================
-function showScreen(id) {
-  document.querySelectorAll('.screen').forEach(s => {
-    s.classList.remove('active');
-    s.style.display = 'none';
-    s.style.opacity = '0';
-  });
-  const el = document.getElementById(id);
-  el.style.display = 'block';
-  requestAnimationFrame(() => {
-    el.classList.add('active');
-    el.style.opacity = '1';
-  });
-}
-
-function showPanel(panel) {
-  panel.classList.add('visible');
-}
-function hidePanel(panel) {
-  panel.classList.remove('visible');
-}
-function togglePanel(panel) {
-  panel.classList.toggle('visible');
-}
-
-// ================================================================
-// ПЕРЕТАСКИВАНИЕ ПЛАШЕК (drag)
-// Отключается на тач-устройствах — там используется touch
-// ================================================================
-function makeDraggable(el) {
-  let startX, startY, startLeft, startTop;
-  const isMobile = () => window.innerWidth <= 640;
-
-  // --- Mouse drag ---
-  el.addEventListener('mousedown', e => {
-    if (isMobile()) return;
-    if (e.button !== 0) return;
-    e.preventDefault();
-    el.classList.add('dragging');
-    const rect = el.getBoundingClientRect();
-    startX = e.clientX;
-    startY = e.clientY;
-    startLeft = rect.left;
-    startTop  = rect.top;
-
-    function onMove(e) {
-      let newLeft = startLeft + (e.clientX - startX);
-      let newTop  = startTop  + (e.clientY - startY);
-      // Не даём уйти за пределы экрана
-      newLeft = Math.max(0, Math.min(window.innerWidth  - el.offsetWidth,  newLeft));
-      newTop  = Math.max(0, Math.min(window.innerHeight - el.offsetHeight, newTop));
-      el.style.left = newLeft + 'px';
-      el.style.top  = newTop  + 'px';
-    }
-    function onUp() {
-      el.classList.remove('dragging');
-      document.removeEventListener('mousemove', onMove);
-      document.removeEventListener('mouseup',   onUp);
-    }
-    document.addEventListener('mousemove', onMove);
-    document.addEventListener('mouseup',   onUp);
-  });
-
-  // --- Touch drag ---
-  el.addEventListener('touchstart', e => {
-    if (!isMobile()) return;
-    const touch = e.touches[0];
-    const rect = el.getBoundingClientRect();
-    startX = touch.clientX;
-    startY = touch.clientY;
-    startLeft = rect.left;
-    startTop  = rect.top;
-  }, { passive: true });
-
-  el.addEventListener('touchmove', e => {
-    if (!isMobile()) return;
-    e.preventDefault();
-    const touch = e.touches[0];
-    let newLeft = startLeft + (touch.clientX - startX);
-    let newTop  = startTop  + (touch.clientY - startY);
-    newLeft = Math.max(0, Math.min(window.innerWidth  - el.offsetWidth,  newLeft));
-    newTop  = Math.max(0, Math.min(window.innerHeight - el.offsetHeight, newTop));
-    el.style.left = newLeft + 'px';
-    el.style.top  = newTop  + 'px';
-  }, { passive: false });
-}
-
-// ================================================================
-// ИНИЦИАЛИЗАЦИЯ ГЛАВНОГО ЭКРАНА
-// ================================================================
-function initHome() {
-  // Фон
-  document.getElementById('home-bg').style.backgroundImage = `url('${SITE.bgImage}')`;
-  // Аватарка
-  document.getElementById('avatar').src = SITE.avatar;
-  // Кнопка имени
-  document.getElementById('btn-name').textContent = SITE.name;
-
-  // Плашка "Обо мне"
-  const panelInfo = document.getElementById('panel-info');
-  panelInfo.innerHTML = SITE.about;
-  // Начальная позиция плашки (правее кнопки)
-  panelInfo.style.top  = '16px';
-  panelInfo.style.left = '310px';
-  makeDraggable(panelInfo);
-
-  // Плашка "Проекты"
-  const panelProj = document.getElementById('panel-projects');
-  panelProj.style.top  = '50px';
-  panelProj.style.left = '310px';
-  makeDraggable(panelProj);
-  renderProjectsPanel(state.activeCat);
-
-  // --- Кнопки ---
-  document.getElementById('btn-name').addEventListener('click', () => {
-    // Закрываем проекты, открываем инфо
-    hidePanel(panelProj);
-    togglePanel(panelInfo);
-  });
-
-  document.getElementById('btn-project').addEventListener('click', () => {
-    // Закрываем инфо, открываем проекты
-    hidePanel(panelInfo);
-    togglePanel(panelProj);
-  });
-}
-
-// ================================================================
-// РЕНДЕР ПЛАШКИ ПРОЕКТОВ
-// ================================================================
-function renderProjectsPanel(activeCat) {
-  state.activeCat = activeCat;
-
-  // Категории
-  const catsList = document.getElementById('cats-list');
-  catsList.innerHTML = '';
-  CATEGORIES.forEach(cat => {
-    const el = document.createElement('div');
-    el.className = 'cat-item' + (cat === activeCat ? ' active' : '');
-    el.textContent = cat;
-    el.addEventListener('click', e => {
-      e.stopPropagation();
-      renderProjectsPanel(cat);
-    });
-    catsList.appendChild(el);
-  });
-
-  // Проекты по категории
-  const projList = document.getElementById('proj-list');
-  projList.innerHTML = '';
-  const filtered = SITE.projects.filter(p => p.category === activeCat);
-  filtered.forEach(proj => {
-    const el = document.createElement('div');
-    el.className = 'proj-item';
-    el.textContent = proj.title;
-    el.addEventListener('click', e => {
-      e.stopPropagation();
-      openProject(proj);
-    });
-    projList.appendChild(el);
-  });
-}
-
-// ================================================================
-// ОТКРЫТЬ ПРОЕКТ
-// ================================================================
-function openProject(proj) {
-  state.currentProject = proj;
-  state.currentImage = null;
-
-  // Фон страницы проекта
-  const bg = document.getElementById('project-bg');
-  if (proj.bg.startsWith('#') || proj.bg.startsWith('rgb')) {
-    bg.style.backgroundImage = 'none';
-    bg.style.backgroundColor = proj.bg;
-  } else {
-    bg.style.backgroundImage = `url('${proj.bg}')`;
-    bg.style.backgroundColor = '';
-  }
-
-  // Аватарка и имя
-  document.getElementById('avatar-proj').src = SITE.avatar;
-  document.getElementById('btn-name-proj').textContent = SITE.name;
-
-  // Плашка описания проекта
-  const panelDesc = document.getElementById('panel-desc');
-  panelDesc.innerHTML = proj.desc;
-  panelDesc.style.top  = '16px';
-  panelDesc.style.left = '230px';
-  if (!panelDesc._draggable) {
-    makeDraggable(panelDesc);
-    panelDesc._draggable = true;
-  }
-  showPanel(panelDesc);
-
-  // Превью картинок
-  const thumbsCol = document.getElementById('thumbs-col');
-  thumbsCol.innerHTML = '';
-  proj.images.forEach((img, i) => {
-    const el = document.createElement('img');
-    el.className = 'thumb-img';
-    el.src = img.src;
-    el.alt = `Image ${i+1}`;
-    el.addEventListener('click', () => openImage(i));
-    thumbsCol.appendChild(el);
-  });
-
-  // Главная картинка — первая по умолчанию
-  openImage(0);
-
-  // Кнопка Back
-  document.getElementById('btn-back-images').classList.remove('visible');
-
-  showScreen('screen-project');
-}
-
-// ================================================================
-// ОТКРЫТЬ КАРТИНКУ (детальный просмотр)
-// ================================================================
-function openImage(index) {
-  const proj = state.currentProject;
-  if (!proj) return;
-  state.currentImage = index;
-
-  const imgData = proj.images[index];
-
-  // Большая картинка
-  const mainImg = document.getElementById('main-image');
-  mainImg.style.opacity = '0';
-  mainImg.src = imgData.src;
-  mainImg.onload = () => { mainImg.style.opacity = '1'; };
-
-  // Обновляем плашку: описание ЭТОЙ картинки
-  const panelDesc = document.getElementById('panel-desc');
-  panelDesc.innerHTML = imgData.desc;
-  panelDesc.scrollTop = 0;
-
-  // Подсвечиваем активный превью
-  document.querySelectorAll('.thumb-img').forEach((el, i) => {
-    el.classList.toggle('active', i === index);
-  });
-}
-
-// ================================================================
-// КНОПКИ НАВИГАЦИИ НА СТРАНИЦЕ ПРОЕКТА
-// ================================================================
-document.getElementById('btn-back').addEventListener('click', () => {
-  // Возврат на главную (восстанавливаем плашку проектов открытой)
-  const panelDesc = document.getElementById('panel-desc');
-  hidePanel(panelDesc);
-  showScreen('screen-home');
-  // Показываем плашку проектов снова
-  showPanel(document.getElementById('panel-projects'));
-});
-
-document.getElementById('btn-back-images').addEventListener('click', () => {
-  // Сбросить выбранную картинку, показать описание проекта
-  const proj = state.currentProject;
-  if (!proj) return;
-  const panelDesc = document.getElementById('panel-desc');
-  panelDesc.innerHTML = proj.desc;
-  panelDesc.scrollTop = 0;
-  document.querySelectorAll('.thumb-img').forEach(el => el.classList.remove('active'));
-  document.getElementById('btn-back-images').classList.remove('visible');
-});
-
-// ================================================================
-// СТАРТ
-// ================================================================
-initHome();
-</script>
-</body>
-</html>
+<!-- ========================================
