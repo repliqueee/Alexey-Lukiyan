@@ -165,9 +165,6 @@
     /* плавное появление */
     opacity: 0;
     transition: opacity 0.25s ease;
-    /* тонкий скроллбар */
-    scrollbar-width: thin;
-    scrollbar-color: #bbb transparent;
   }
   .panel::-webkit-scrollbar { width: 6px; }
   .panel::-webkit-scrollbar-thumb { background: #ccc; border-radius: 4.8px; }
@@ -262,7 +259,10 @@
   border-left: 0.6px dashed #282828;
   z-index: 5; /* Гарантирует, что полоса всегда будет поверх фонов */
 }
-
+   /* тонкий скроллбар */
+    scrollbar-width: 10px;
+    scrollbar-color: #A6A6A6;
+    border-radius: 12px;
   /* ===== СТИЛИ ВНУТРИ ПЛАШКИ ПРОЕКТОВ ===== */
   .projects-grid {
     display: flex;
