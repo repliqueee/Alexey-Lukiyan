@@ -238,14 +238,16 @@
   color: #282828;
 }
 
-.panel--info .info-link {
-  color: #0000FF;
+.panel--info .info-link,
+.panel--info .info-link * {
+  color: #0000FF !important; /* Гарантирует синий цвет самой ссылке и тексту <u> внутри нее */
   text-decoration: underline;
   text-decoration-thickness: 0.36px;
   text-underline-offset: 0.6px;
   text-decoration-skip-ink: auto;
   cursor: pointer;
 }
+
 
 /* ЖЕСТКОЕ И НАДЕЖНОЕ ПОЗИЦИОНИРОВАНИЕ ПОЛОСЫ */
 .panel--info .right-strip {
