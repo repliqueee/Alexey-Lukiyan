@@ -31,6 +31,7 @@
     overflow: hidden;
     font-family: 'Inter', sans-serif;
     font-size: 14.4px;
+    color: #111;
   }
 
   /* ===== ЭКРАНЫ (SPA-логика) ===== */
@@ -586,4 +587,320 @@ const CATEGORIES = ["Poster", "Logo", "Website", "Cover", "Other"];
   </div>
 </div>
 
-<!-- ========================================
+<!-- ============================================================ -->
+<!-- ЭКРАН 2: СТРАНИЦА ПРОЕКТА                                    -->
+<!-- ============================================================ -->
+<div id="screen-project" class="screen">
+  <div class="bg" id="project-bg"></div>
+
+  <img id="avatar-proj" src="" alt="Avatar"
+       style="position:absolute;top:19.2px;left:19.2px;width:120px;height:120px;object-fit:cover;border-radius:6px;z-index:10;" />
+
+  <button class="pill-btn pill-yellow" id="btn-name-proj"
+          style="position:absolute;top:19.2px;left:148.8px;"></button>
+ <button class="pill-btn pill-gray" id="btn-back"
+          style="position:absolute;top:60px;left:148.8px;"><span>Back</span></button>
+
+  <!-- Плашка с описанием проекта -->
+  <div class="panel panel--desc" id="panel-desc"></div>
+
+  <!-- Галерея превью (правая колонка) -->
+  <div class="thumbs-col" id="thumbs-col"></div>
+
+  <!-- Большая картинка по центру -->
+  <div class="main-image-area" id="main-image-area">
+    <img id="main-image" src="" alt="" />
+  </div>
+
+  <!-- Кнопка вернуться к списку картинок (появляется при просмотре) -->
+  <button class="back-images-btn" id="btn-back-images">▸ Back to images</button>
+</div>
+
+<!-- ============================================================ -->
+<!-- JS: ЛОГИКА SPA                                               -->
+<!-- ============================================================ -->
+<script>
+// ================================================================
+// СОСТОЯНИЕ ПРИЛОЖЕНИЯ
+// ================================================================
+let state = {
+  currentProject: null,  // объект текущего проекта
+  currentImage: null,    // индекс текущей картинки (null = не выбрана)
+  activeCat: "Poster",   // активная категория в плашке проектов
+};
+
+// ================================================================
+// УТИЛИТЫ
+// ================================================================
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => {
+    s.classList.remove('active');
+    s.style.display = 'none';
+    s.style.opacity = '0';
+  });
+  const el = document.getElementById(id);
+  el.style.display = 'block';
+  requestAnimationFrame(() => {
+    el.classList.add('active');
+    el.style.opacity = '1';
+  });
+}
+
+function showPanel(panel) {
+  panel.classList.add('visible');
+}
+function hidePanel(panel) {
+  panel.classList.remove('visible');
+}
+function togglePanel(panel) {
+  panel.classList.toggle('visible');
+}
+
+// ================================================================
+// ПЕРЕТАСКИВАНИЕ ПЛАШЕК (drag)
+// Отключается на тач-устройствах — там используется touch
+// ================================================================
+function makeDraggable(el) {
+  let startX, startY, startLeft, startTop;
+  const isMobile = () => window.innerWidth <= 640;
+
+  // --- Mouse drag ---
+  el.addEventListener('mousedown', e => {
+    if (isMobile()) return;
+    if (e.button !== 0) return;
+    e.preventDefault();
+    el.classList.add('dragging');
+    const rect = el.getBoundingClientRect();
+    startX = e.clientX;
+    startY = e.clientY;
+    startLeft = rect.left;
+    startTop  = rect.top;
+
+    function onMove(e) {
+      let newLeft = startLeft + (e.clientX - startX);
+      let newTop  = startTop  + (e.clientY - startY);
+      // Не даём уйти за пределы экрана
+      newLeft = Math.max(0, Math.min(window.innerWidth  - el.offsetWidth,  newLeft));
+      newTop  = Math.max(0, Math.min(window.innerHeight - el.offsetHeight, newTop));
+      el.style.left = newLeft + 'px';
+      el.style.top  = newTop  + 'px';
+    }
+    function onUp() {
+      el.classList.remove('dragging');
+      document.removeEventListener('mousemove', onMove);
+      document.removeEventListener('mouseup',   onUp);
+    }
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('mouseup',   onUp);
+  });
+
+  // --- Touch drag ---
+  el.addEventListener('touchstart', e => {
+    if (!isMobile()) return;
+    const touch = e.touches[0];
+    const rect = el.getBoundingClientRect();
+    startX = touch.clientX;
+    startY = touch.clientY;
+    startLeft = rect.left;
+    startTop  = rect.top;
+  }, { passive: true });
+
+  el.addEventListener('touchmove', e => {
+    if (!isMobile()) return;
+    e.preventDefault();
+    const touch = e.touches[0];
+    let newLeft = startLeft + (touch.clientX - startX);
+    let newTop  = startTop  + (touch.clientY - startY);
+    newLeft = Math.max(0, Math.min(window.innerWidth  - el.offsetWidth,  newLeft));
+    newTop  = Math.max(0, Math.min(window.innerHeight - el.offsetHeight, newTop));
+    el.style.left = newLeft + 'px';
+    el.style.top  = newTop  + 'px';
+  }, { passive: false });
+}
+
+// ================================================================
+// ИНИЦИАЛИЗАЦИЯ ГЛАВНОГО ЭКРАНА
+// ================================================================
+function initHome() {
+  // Фон
+  document.getElementById('home-bg').style.backgroundImage = `url('${SITE.bgImage}')`;
+  // Аватарка
+  document.getElementById('avatar').src = SITE.avatar;
+  // Кнопка имени
+  document.getElementById('btn-name').textContent = SITE.name;
+
+  // Плашка "Обо мне"
+  const panelInfo = document.getElementById('panel-info');
+  panelInfo.innerHTML = SITE.about;
+  // Начальная позиция плашки (правее кнопки)
+  panelInfo.style.top  = '19.2px';
+  panelInfo.style.left = '372px';
+  makeDraggable(panelInfo);
+
+  // Плашка "Проекты"
+  const panelProj = document.getElementById('panel-projects');
+  panelProj.style.top  = '60px';
+  panelProj.style.left = '372px';
+  makeDraggable(panelProj);
+  renderProjectsPanel(state.activeCat);
+
+  // --- Кнопки ---
+  document.getElementById('btn-name').addEventListener('click', () => {
+    // Закрываем проекты, открываем инфо
+    hidePanel(panelProj);
+    togglePanel(panelInfo);
+  });
+
+  document.getElementById('btn-project').addEventListener('click', () => {
+    // Закрываем инфо, открываем проекты
+    hidePanel(panelInfo);
+    togglePanel(panelProj);
+  });
+}
+
+// ================================================================
+// РЕНДЕР ПЛАШКИ ПРОЕКТОВ
+// ================================================================
+function renderProjectsPanel(activeCat) {
+  state.activeCat = activeCat;
+
+  // Категории
+  const catsList = document.getElementById('cats-list');
+  catsList.innerHTML = '';
+  CATEGORIES.forEach(cat => {
+    const el = document.createElement('div');
+    el.className = 'cat-item' + (cat === activeCat ? ' active' : '');
+    el.textContent = cat;
+    el.addEventListener('click', e => {
+      e.stopPropagation();
+      renderProjectsPanel(cat);
+    });
+    catsList.appendChild(el);
+  });
+
+  // Проекты по категории
+  const projList = document.getElementById('proj-list');
+  projList.innerHTML = '';
+  const filtered = SITE.projects.filter(p => p.category === activeCat);
+  filtered.forEach(proj => {
+    const el = document.createElement('div');
+    el.className = 'proj-item';
+    el.textContent = proj.title;
+    el.addEventListener('click', e => {
+      e.stopPropagation();
+      openProject(proj);
+    });
+    projList.appendChild(el);
+  });
+}
+
+// ================================================================
+// ОТКРЫТЬ ПРОЕКТ
+// ================================================================
+function openProject(proj) {
+  state.currentProject = proj;
+  state.currentImage = null;
+
+  // Фон страницы проекта
+  const bg = document.getElementById('project-bg');
+  if (proj.bg.startsWith('#') || proj.bg.startsWith('rgb')) {
+    bg.style.backgroundImage = 'none';
+    bg.style.backgroundColor = proj.bg;
+  } else {
+    bg.style.backgroundImage = `url('${proj.bg}')`;
+    bg.style.backgroundColor = '';
+  }
+
+  // Аватарка и имя
+  document.getElementById('avatar-proj').src = SITE.avatar;
+  document.getElementById('btn-name-proj').textContent = SITE.name;
+
+  // Плашка описания проекта
+  const panelDesc = document.getElementById('panel-desc');
+  panelDesc.innerHTML = proj.desc;
+  panelDesc.style.top  = '19.2px';
+  panelDesc.style.left = '276px';
+  if (!panelDesc._draggable) {
+    makeDraggable(panelDesc);
+    panelDesc._draggable = true;
+  }
+  showPanel(panelDesc);
+
+  // Превью картинок
+  const thumbsCol = document.getElementById('thumbs-col');
+  thumbsCol.innerHTML = '';
+  proj.images.forEach((img, i) => {
+    const el = document.createElement('img');
+    el.className = 'thumb-img';
+    el.src = img.src;
+    el.alt = `Image ${i+1}`;
+    el.addEventListener('click', () => openImage(i));
+    thumbsCol.appendChild(el);
+  });
+
+  // Главная картинка — первая по умолчанию
+  openImage(0);
+
+  // Кнопка Back
+  document.getElementById('btn-back-images').classList.remove('visible');
+
+  showScreen('screen-project');
+}
+
+// ================================================================
+// ОТКРЫТЬ КАРТИНКУ (детальный просмотр)
+// ================================================================
+function openImage(index) {
+  const proj = state.currentProject;
+  if (!proj) return;
+  state.currentImage = index;
+
+  const imgData = proj.images[index];
+
+  // Большая картинка
+  const mainImg = document.getElementById('main-image');
+  mainImg.style.opacity = '0';
+  mainImg.src = imgData.src;
+  mainImg.onload = () => { mainImg.style.opacity = '1'; };
+
+  // Обновляем плашку: описание ЭТОЙ картинки
+  const panelDesc = document.getElementById('panel-desc');
+  panelDesc.innerHTML = imgData.desc;
+  panelDesc.scrollTop = 0;
+
+  // Подсвечиваем активный превью
+  document.querySelectorAll('.thumb-img').forEach((el, i) => {
+    el.classList.toggle('active', i === index);
+  });
+}
+
+// ================================================================
+// КНОПКИ НАВИГАЦИИ НА СТРАНИЦЕ ПРОЕКТА
+// ================================================================
+document.getElementById('btn-back').addEventListener('click', () => {
+  // Возврат на главную (восстанавливаем плашку проектов открытой)
+  const panelDesc = document.getElementById('panel-desc');
+  hidePanel(panelDesc);
+  showScreen('screen-home');
+  // Показываем плашку проектов снова
+  showPanel(document.getElementById('panel-projects'));
+});
+
+document.getElementById('btn-back-images').addEventListener('click', () => {
+  // Сбросить выбранную картинку, показать описание проекта
+  const proj = state.currentProject;
+  if (!proj) return;
+  const panelDesc = document.getElementById('panel-desc');
+  panelDesc.innerHTML = proj.desc;
+  panelDesc.scrollTop = 0;
+  document.querySelectorAll('.thumb-img').forEach(el => el.classList.remove('active'));
+  document.getElementById('btn-back-images').classList.remove('visible');
+});
+
+// ================================================================
+// СТАРТ
+// ================================================================
+initHome();
+</script>
+</body>
+</html>
