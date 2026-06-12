@@ -10,9 +10,14 @@
   font-family: 'Magneto';
   src: url('magneto-bold.ttf') format('truetype');
   font-weight: bold;
-  font-style: normal;
+  font-style: normal; 
 }
-
+@font-face {
+  font-family: 'Helvetica Neue';
+  src: local('Helvetica Neue Medium');
+  font-weight: 500;
+}
+  
   /* ===== СБРОС И БАЗОВЫЕ СТИЛИ ===== */
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -108,13 +113,29 @@
 }
 
   /* Серая (Project / Back) */
-  .pill-gray {
-    background: #E0E0E0;
-    color: #111;
-    top: 50px; /* 16px + ~28px высота жёлтой + 5px */
-    left: 124px;
-  }
+.pill-gray {
+  width: 97px;
+  height: 45px;
+  top: 70px;
+  left: 157px;
+  padding: 0;
+  border-radius: 22.5px; /* половина высоты = вытянутый круг (stadium) */
+  background: #2A2A2A;
+  color: #fff;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 125%;
+  letter-spacing: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
+.pill-gray span {
+  display: inline-block;
+  transform: rotate(-11.65deg);
+}
   /* ===== ИНФО-ПЛАШКИ (виджеты) ===== */
   /*
     Все плашки имеют высоту строго 93px.
