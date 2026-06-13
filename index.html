@@ -294,6 +294,7 @@
   width: 6px;
   height: 120px;
   flex-shrink: 0;
+  background: #F0F0F0;
   border-left: 0.6px dashed #282828;
   border-right: 0.6px dashed #282828;
 }
@@ -319,17 +320,17 @@
 }
 
 /* Пункты списков с треугольником при hover */
-.panel--project .cat-item,
-.panel--project .proj-item {
-  display: flex;
-  align-items: center;
-  gap: 4.8px;
-  white-space: nowrap;
-  cursor: pointer;
-  padding: 0;
+.panel--project .cat-item::before { content: none; }
+
+.panel--project .cat-item span:last-child,
+.panel--project .proj-item span:last-child {
+  text-decoration: underline;
+  text-decoration-thickness: 0.36px;
+  text-underline-offset: 0.6px;
+  text-decoration-skip-ink: auto;
+  color: #282828;
+  font-weight: 400;
 }
-.panel--project .cat-item::before,
-.panel--project .cat-item.active::before { content: none; }
 
 .panel--project .item-triangle {
   flex-shrink: 0;
@@ -342,7 +343,8 @@
 }
 .panel--project .cat-item:hover .item-triangle,
 .panel--project .cat-item.active .item-triangle,
-.panel--project .proj-item:hover .item-triangle {
+.panel--project .proj-item:hover .item-triangle,
+.panel--project .proj-item.active .item-triangle {
   visibility: visible;
 }
   
@@ -663,6 +665,16 @@ CV can be viewed <a class="info-link" href="CV Alexey Lukiyan 2026.pdf" target="
 // Все категории (порядок отображения в плашке проектов)
 // ================================================================
 const CATEGORIES = ["Poster", "Logo", "Website", "Cover", "Other"];
+  // ================================================================
+// Списки проектов по категориям (для отображения в плашке)
+// ================================================================
+const PROJECTS_BY_CATEGORY = {
+  Poster: ["Yo-fen Festival", "Arche", "Kanugo", "No South Without Boy", "Nostalgia", "Artmercial Games", "Cherry Orchard", "Child", "Routine Escape Zine", "L Galerie", "Ardor Font", "E.P.W.R.F.", "Departament Festival"],
+  Logo: ["Yo-fen Festival", "Faccia Cafe", "Rebuilding Creativity", "Nostalgia", "Glam Go", "Objct", "Zerkalo", "Moins de Douleur"],
+  Website: ["Baf Buro", "Aprilveahcu", "Liza Klopf Klopf"],
+  Cover: ["Sweet Dreams", "Sweet Dreams 2", "Sensee", "Nebo"],
+  Other: ["Nostalgia", "5/2", "Faccia cafe", "2029", "Smokers Die Younger", "Luco", "OAO 338", "planer", "Memoire", "If", "Menshechem3", "Emanuel Drugon", "Vengeance"]
+};
 </script>
 
 <!-- ============================================================ -->
@@ -861,7 +873,6 @@ function renderProjectsPanel(activeCat) {
 
   const panelProj = document.getElementById('panel-projects');
 
-  // Если структура ещё не создана — создаём её один раз
   if (!panelProj.querySelector('.cats-block')) {
     panelProj.innerHTML = `
       <div class="cats-block" id="cats-list"></div>
@@ -870,6 +881,36 @@ function renderProjectsPanel(activeCat) {
     `;
   }
 
+  // Категории
+  const catsList = document.getElementById('cats-list');
+  catsList.innerHTML = '';
+  CATEGORIES.forEach(cat => {
+    const el = document.createElement('div');
+    el.className = 'cat-item' + (cat === activeCat ? ' active' : '');
+    el.innerHTML = `<span class="item-triangle"></span><span>${cat}</span>`;
+    el.addEventListener('click', e => {
+      e.stopPropagation();
+      renderProjectsPanel(cat);
+    });
+    catsList.appendChild(el);
+  });
+
+  // Проекты по категории
+  const projList = document.getElementById('proj-list');
+  projList.innerHTML = '';
+  const titles = PROJECTS_BY_CATEGORY[activeCat] || [];
+  titles.forEach((title, i) => {
+    const el = document.createElement('div');
+    el.className = 'proj-item' + (i === 0 ? ' active' : '');
+    el.innerHTML = `<span class="item-triangle"></span><span>${title}</span>`;
+    el.addEventListener('click', e => {
+      e.stopPropagation();
+      const proj = SITE.projects.find(p => p.title === title);
+      if (proj) openProject(proj);
+    });
+    projList.appendChild(el);
+  });
+}
   // Категории
   const catsList = document.getElementById('cats-list');
   catsList.innerHTML = '';
