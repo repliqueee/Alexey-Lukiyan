@@ -314,24 +314,24 @@
   overflow-y: auto;
 }
 
-.panel--project .projects-block::-webkit-scrollbar {
+/* ЖЕСТКОЕ И НАДЕЖНОЕ ПОЗИЦИОНИРОВАНИЕ ПОЛОСЫ */
+.panel--info .right-strip .projects-block::-webkit-scrollbar {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
   width: 14.4px;
-}
-.panel--project .projects-block::-webkit-scrollbar-track {
+  height: 100%;
   background: #F0F0F0;
   border-left: 0.6px dashed #282828;
-}
-.panel--project .projects-block::-webkit-scrollbar-thumb {
+  z-index: 5; /* Гарантирует, что полоса всегда будет поверх фонов */
+} 
+  
+..panel--info .right-strip .projects-block::-webkit-scrollbar-thumb {
   background: #A6A6A6;
-  min-height: 18px;
+  max-height: 18px;
   border-radius: 0;
   border: 0;
-}
-
-/* Firefox */
-.panel--project .projects-block {
-  scrollbar-width: auto;
-  scrollbar-color: #A6A6A6 #F0F0F0;
 }
 /* Пункты списков с треугольником при hover */
 .panel--project .cat-item::before { content: none; }
