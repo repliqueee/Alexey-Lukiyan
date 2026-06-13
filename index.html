@@ -693,6 +693,10 @@ const PROJECTS_BY_CATEGORY = {
 
 <!-- Плашка "Проекты" -->
   <div class="panel--project" id="panel-projects"></div>
+</div>
+
+<!-- ============================================================ -->
+<!-- ЭКРАН 2: СТРАНИЦА ПРОЕКТА                                    -->
   
 <!-- ============================================================ -->
 <!-- ЭКРАН 2: СТРАНИЦА ПРОЕКТА                                    -->
@@ -907,35 +911,6 @@ function renderProjectsPanel(activeCat) {
       e.stopPropagation();
       const proj = SITE.projects.find(p => p.title === title);
       if (proj) openProject(proj);
-    });
-    projList.appendChild(el);
-  });
-}
-  // Категории
-  const catsList = document.getElementById('cats-list');
-  catsList.innerHTML = '';
-  CATEGORIES.forEach(cat => {
-    const el = document.createElement('div');
-    el.className = 'cat-item' + (cat === activeCat ? ' active' : '');
-    el.innerHTML = `<span class="item-triangle"></span><span>${cat}</span>`;
-    el.addEventListener('click', e => {
-      e.stopPropagation();
-      renderProjectsPanel(cat);
-    });
-    catsList.appendChild(el);
-  });
-
-  // Проекты по категории
-  const projList = document.getElementById('proj-list');
-  projList.innerHTML = '';
-  const filtered = SITE.projects.filter(p => p.category === activeCat);
-  filtered.forEach(proj => {
-    const el = document.createElement('div');
-    el.className = 'proj-item';
-    el.innerHTML = `<span class="item-triangle"></span><span>${proj.title}</span>`;
-    el.addEventListener('click', e => {
-      e.stopPropagation();
-      openProject(proj);
     });
     projList.appendChild(el);
   });
