@@ -1144,18 +1144,6 @@ document.getElementById('btn-back').addEventListener('click', () => {
   renderProjectsPanel(state.activeCat);
   showPanel(panelProj);
 });
-  // Сбрасываем desc-content чтобы не было мусора при следующем открытии
-  const descContent = document.getElementById('desc-content');
-  if (descContent) descContent.innerHTML = '';
-
-  showScreen('screen-home');
-
-  // Показываем плашку проектов
-  const panelProj = document.getElementById('panel-projects');
-  panelProj.style.display = 'flex';
-  panelProj.classList.add('visible');
-  requestAnimationFrame(() => { panelProj.style.opacity = '1'; });
-});
 
 document.getElementById('btn-back-images').addEventListener('click', () => {
   const proj = state.currentProject;
