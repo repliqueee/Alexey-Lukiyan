@@ -478,7 +478,12 @@
   .proj-item:hover { text-decoration: underline; }
 
 /* ===== ПЛАШКА ОПИСАНИЯ ПРОЕКТА ===== */
-left: 131px; /* 24px кнопка Back (102px) + 5px отступ */
+.panel--desc {
+  position: absolute;
+  width: 600px;
+  height: 120px;
+  top: 24px;
+  left: 131px;
   border: 0.6px dashed #282828;
   background: #fff;
   padding: 0;
@@ -1131,7 +1136,8 @@ function openImage(index) {
 document.getElementById('btn-back').addEventListener('click', () => {
   const panelDesc = document.getElementById('panel-desc');
   hidePanel(panelDesc);
-  // Сбрасываем структуру плашки проектов чтобы она перерисовалась
+  const descContent = document.getElementById('desc-content');
+  if (descContent) descContent.innerHTML = '';
   const panelProj = document.getElementById('panel-projects');
   panelProj.innerHTML = '';
   showScreen('screen-home');
