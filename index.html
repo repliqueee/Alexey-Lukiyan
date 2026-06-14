@@ -85,7 +85,40 @@
     white-space: nowrap;
     user-select: none;
   }
-
+  
+/* Кнопка Back на странице проекта */
+.pill-back {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  width: 102px;
+  height: 54px;
+  padding: 0;
+  border-radius: 0;
+  background: #FEE643;
+  color: #282828;
+  font-family: 'Magneto', cursive;
+  font-size: 16.8px;
+  font-weight: bold;
+  line-height: 125%;
+  letter-spacing: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  border: none;
+  cursor: pointer;
+  clip-path: polygon(
+    12.5% 0%,
+    87.5% 0%,
+    100% 20%,
+    100% 80%,
+    87.5% 100%,
+    12.5% 100%,
+    0% 80%,
+    0% 20%
+  );
+}
   /* Жёлтая (имя) */
  .pill-yellow {
   width: 192px;
@@ -445,12 +478,7 @@
   .proj-item:hover { text-decoration: underline; }
 
 /* ===== ПЛАШКА ОПИСАНИЯ ПРОЕКТА ===== */
-.panel--desc {
-  position: absolute;
-  width: 600px;
-  height: 120px;
-  top: 24px;
-  left: 348px;
+left: 131px; /* 24px кнопка Back (102px) + 5px отступ */
   border: 0.6px dashed #282828;
   background: #fff;
   padding: 0;
@@ -777,13 +805,7 @@ const PROJECTS_BY_CATEGORY = {
 <div id="screen-project" class="screen">
   <div class="bg" id="project-bg"></div>
 
-<img id="avatar-proj" src="" alt="Avatar"
-       style="position:absolute;top:24px;left:24px;width:120px;height:120px;object-fit:cover;border-radius:0px;z-index:10;" />
-
-<button class="pill-btn pill-yellow" id="btn-name-proj"
-          style="position:absolute;top:24px;left:150px;"></button>
-  <button class="pill-btn pill-gray" id="btn-back"
-          style="position:absolute;top:84px;left:188.4px;"><span>Back</span></button>
+  <button class="pill-btn pill-back" id="btn-back">Back</button>
 <!-- Плашка с описанием проекта -->
   <div class="panel--desc" id="panel-desc">
     <div class="desc-content" id="desc-content"></div>
@@ -1033,10 +1055,6 @@ function openProject(proj) {
     bg.style.backgroundColor = '';
   }
 
-  // Аватарка и имя
-  document.getElementById('avatar-proj').src = SITE.avatar;
-  document.getElementById('btn-name-proj').textContent = SITE.name;
-
   // Плашка описания проекта
   const panelDesc = document.getElementById('panel-desc');
   const descContent = document.getElementById('desc-content');
@@ -1049,7 +1067,7 @@ descContent.innerHTML = `
   descContent.scrollTop = 0;
 
   panelDesc.style.top  = '24px';
-  panelDesc.style.left = '348px';
+  panelDesc.style.left = '131px';
 
   if (!panelDesc._draggable) {
     makeDraggable(panelDesc);
