@@ -261,7 +261,7 @@
   border-left: 0.6px dashed #282828;
   z-index: 5; /* Гарантирует, что полоса всегда будет поверх фонов */
 }
-  /* ===== ПЛАШКА "ПРОЕКТЫ" ===== */
+/* ===== ПЛАШКА "ПРОЕКТЫ" ===== */
 .panel--project {
   position: absolute;
   width: 280px;
@@ -269,12 +269,20 @@
   border: 0.6px dashed #282828;
   background: #fff;
   padding: 0;
-  display: flex;
+  display: none;
   overflow: hidden;
   opacity: 0;
   transition: opacity 0.25s ease;
+  cursor: grab;
+  z-index: 20;
 }
-.panel--project.visible { display: flex; opacity: 1; }
+.panel--project.visible {
+  display: flex;
+  opacity: 1;
+}
+.panel--project.dragging {
+  cursor: grabbing;
+}
 
 .panel--project .cats-block {
   width: 100px;
@@ -299,10 +307,22 @@
   border-right: 0.6px dashed #282828;
 }
 
+/* Обёртка для списка проектов + скроллбар-полоса */
 .panel--project .projects-block {
-  width: 160px;
+  position: relative;
+  width: 174px; /* 160 + 14.4 под полосу */
   height: 120px;
   flex-shrink: 0;
+  overflow: hidden;
+}
+
+/* Сам скроллируемый список */
+.panel--project .projects-list {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 14.4px; /* место под полосу */
+  bottom: 0;
   padding: 10.8px 9.6px;
   font-family: 'Helvetica', Arial, sans-serif;
   font-size: 12px;
@@ -311,23 +331,45 @@
   letter-spacing: 0;
   color: #282828;
   overflow-y: auto;
+  scrollbar-width: none; /* прячем системный скролл */
+}
+.panel--project .projects-list::-webkit-scrollbar {
+  display: none;
 }
 
-/* ЖЕСТКОЕ И НАДЕЖНОЕ ПОЗИЦИОНИРОВАНИЕ ПОЛОСЫ */
-.panel--info .right-strip .projects-block::-webkit-scrollbar {
+/* Полоса-скроллбар (как right-strip в плашке инфо) */
+.panel--project .scroll-strip {
   position: absolute;
   top: 0;
   right: 0;
   bottom: 0;
   width: 14.4px;
-  height: 100%;
   background: #F0F0F0;
   border-left: 0.6px dashed #282828;
-  z-index: 5; /* Гарантирует, что полоса всегда будет поверх фонов */
-} 
-  
-/* Пункты списков с треугольником при hover */
-.panel--project .cat-item::before { content: none; }
+  z-index: 5;
+}
+
+/* Бегунок внутри полосы */
+.panel--project .scroll-thumb {
+  position: absolute;
+  right: 0;
+  width: 14.4px;
+  background: #A6A6A6;
+  min-height: 18px;
+  border-radius: 0;
+}
+
+/* Пункты списков */
+.panel--project .cat-item,
+.panel--project .proj-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+  cursor: pointer;
+  padding: 0;
+  list-style: none;
+}
 
 .panel--project .cat-item span:last-child,
 .panel--project .proj-item span:last-child {
@@ -338,9 +380,10 @@
   color: #282828;
   font-weight: 400;
 }
-  
+
 .panel--project .item-triangle {
   flex-shrink: 0;
+  display: inline-block;
   width: 0;
   height: 0;
   border-left: 4px solid #282828;
@@ -348,6 +391,7 @@
   border-bottom: 3px solid transparent;
   visibility: hidden;
 }
+
 .panel--project .cat-item:hover .item-triangle,
 .panel--project .cat-item.active .item-triangle,
 .panel--project .proj-item:hover .item-triangle,
@@ -819,7 +863,12 @@ function renderProjectsPanel(activeCat) {
     panelProj.innerHTML = `
       <div class="cats-block" id="cats-list"></div>
       <div class="divider"></div>
-      <div class="projects-block" id="proj-list"></div>
+      <div class="projects-block">
+        <div class="projects-list" id="proj-list"></div>
+        <div class="scroll-strip">
+          <div class="scroll-thumb" id="scroll-thumb"></div>
+        </div>
+      </div>
     `;
   }
 
@@ -854,6 +903,23 @@ function renderProjectsPanel(activeCat) {
     });
     projList.appendChild(el);
   });
+  // Обновляем бегунок скроллбара
+  const projListEl = document.getElementById('proj-list');
+  const thumb = document.getElementById('scroll-thumb');
+  if (thumb && projListEl) {
+    const updateThumb = () => {
+      const ratio = projListEl.clientHeight / projListEl.scrollHeight;
+      const thumbH = Math.max(18, 120 * ratio);
+      const thumbTop = (projListEl.scrollTop / projListEl.scrollHeight) * 120;
+      thumb.style.height = thumbH + 'px';
+      thumb.style.top = thumbTop + 'px';
+      thumb.style.display = ratio >= 1 ? 'none' : 'block';
+    };
+    projListEl.removeEventListener('scroll', projListEl._scrollHandler || null);
+    projListEl._scrollHandler = updateThumb;
+    projListEl.addEventListener('scroll', updateThumb);
+    updateThumb();
+  }
 }
 // ================================================================
 // ОТКРЫТЬ ПРОЕКТ
