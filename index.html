@@ -912,7 +912,7 @@ function renderProjectsPanel(activeCat) {
   if (thumb && projListEl) {
     const updateThumb = () => {
       const ratio = projListEl.clientHeight / projListEl.scrollHeight;
-      const thumbH = Math.max(18, 120 * ratio);
+      const thumbH = 25;
       const thumbTop = (projListEl.scrollTop / projListEl.scrollHeight) * 120;
       thumb.style.height = thumbH + 'px';
       thumb.style.top = thumbTop + 'px';
