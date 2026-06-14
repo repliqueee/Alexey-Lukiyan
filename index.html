@@ -777,10 +777,10 @@ const PROJECTS_BY_CATEGORY = {
 <div id="screen-project" class="screen">
   <div class="bg" id="project-bg"></div>
 
- <img id="avatar-proj" src="" alt="Avatar"
+<img id="avatar-proj" src="" alt="Avatar"
        style="position:absolute;top:24px;left:24px;width:120px;height:120px;object-fit:cover;border-radius:0px;z-index:10;" />
 
-  <button class="pill-btn pill-yellow" id="btn-name-proj"
+<button class="pill-btn pill-yellow" id="btn-name-proj"
           style="position:absolute;top:24px;left:150px;"></button>
   <button class="pill-btn pill-gray" id="btn-back"
           style="position:absolute;top:84px;left:188.4px;"><span>Back</span></button>
@@ -1043,10 +1043,10 @@ function openProject(proj) {
   const thumbDesc = document.getElementById('scroll-thumb-desc');
 
   // Наполняем текстом
-  descContent.innerHTML = `
-    <div class="triangle"></div>
-    <span>${proj.desc}</span>
+descContent.innerHTML = `
+    <div class="triangle"></div><span>${proj.desc}</span>
   `;
+  descContent.scrollTop = 0;
 
   panelDesc.style.top  = '24px';
   panelDesc.style.left = '348px';
@@ -1102,13 +1102,6 @@ function openImage(index) {
   mainImg.src = imgData.src;
   mainImg.onload = () => { mainImg.style.opacity = '1'; };
 
-  // Обновляем ТОЛЬКО desc-content, не всю плашку
-  const descContent = document.getElementById('desc-content');
-  if (descContent) {
-    descContent.innerHTML = `<div class="triangle"></div><span>${imgData.desc}</span>`;
-    descContent.scrollTop = 0;
-  }
-
   // Подсвечиваем активный превью
   document.querySelectorAll('.thumb-img').forEach((el, i) => {
     el.classList.toggle('active', i === index);
@@ -1119,10 +1112,14 @@ function openImage(index) {
 // ================================================================
 document.getElementById('btn-back').addEventListener('click', () => {
   const panelDesc = document.getElementById('panel-desc');
-  panelDesc.classList.remove('visible');
-  panelDesc.style.display = 'none';
-  panelDesc.style.opacity = '0';
-
+  hidePanel(panelDesc);
+  // Сбрасываем структуру плашки проектов чтобы она перерисовалась
+  const panelProj = document.getElementById('panel-projects');
+  panelProj.innerHTML = '';
+  showScreen('screen-home');
+  renderProjectsPanel(state.activeCat);
+  showPanel(panelProj);
+});
   // Сбрасываем desc-content чтобы не было мусора при следующем открытии
   const descContent = document.getElementById('desc-content');
   if (descContent) descContent.innerHTML = '';
