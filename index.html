@@ -352,11 +352,12 @@
 /* Бегунок внутри полосы */
 .panel--project .scroll-thumb {
   position: absolute;
-  right: 0;
-  width: 14.4px;
+  right: 3.2px; /* центрируем 8px внутри полосы 14.4px */
+  width: 8px;
+  height: 25px !important;
+  min-height: 25px;
   background: #A6A6A6;
-  min-height: 18px;
-  border-radius: 0;
+  border-radius: 12px;
 }
 
 /* Пункты списков */
@@ -420,6 +421,8 @@
   .cat-item.active { color: #000; font-weight: 600; }
   .cat-item::before { content: '▸ '; }
   .cat-item.active::before { content: '▸ '; color: #000; }
+  .panel--project .cat-item::before { content: none; }
+  .panel--project .cat-item.active::before { content: none; }
 
   .projects-col {
     flex: 1;
