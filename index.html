@@ -443,13 +443,82 @@
   }
   .proj-item:hover { text-decoration: underline; }
 
+/* ===== ПЛАШКА ОПИСАНИЯ ПРОЕКТА ===== */
+.panel--desc {
+  position: absolute;
+  width: 600px;
+  height: 120px;
+  top: 24px;
+  left: 348px;
+  border: 0.6px dashed #282828;
+  background: #fff;
+  padding: 0;
+  display: none;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  cursor: grab;
+  z-index: 20;
+}
+.panel--desc.visible {
+  display: flex;
+  opacity: 1;
+}
+.panel--desc.dragging { cursor: grabbing; }
 
+.panel--desc .desc-content {
+  box-sizing: border-box;
+  width: calc(100% - 14.4px);
+  height: 100%;
+  padding: 10.8px 9.6px;
+  font-family: 'Helvetica', Arial, sans-serif !important;
+  font-size: 12px !important;
+  font-weight: 400;
+  line-height: 125%;
+  letter-spacing: 0;
+  color: #282828;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+.panel--desc .desc-content::-webkit-scrollbar { display: none; }
 
+.panel--desc .desc-content * {
+  font-size: 12px !important;
+  font-family: 'Helvetica', Arial, sans-serif !important;
+  line-height: 125% !important;
+}
 
+.panel--desc .triangle {
+  display: inline-block;
+  vertical-align: middle;
+  width: 0;
+  height: 0;
+  border-left: 7.2px solid #282828;
+  border-top: 4.2px solid transparent;
+  border-bottom: 4.2px solid transparent;
+  margin: 0 4.8px 2.4px 0;
+}
 
+.panel--desc .right-strip {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 14.4px;
+  background: #F0F0F0;
+  border-left: 0.6px dashed #282828;
+  z-index: 5;
+}
 
+.panel--desc .scroll-thumb-desc {
+  position: absolute;
+  right: 3.2px;
+  width: 8px;
+  height: 25px;
+  background: #A6A6A6;
+  border-radius: 12px;
+}
 
-  
   /* ===== МОБИЛЬНЫЕ СТИЛИ ===== */
   @media (max-width: 640px) {
     #avatar { width: 84px; height: 84px; top: 12px; left: 12px; }
@@ -537,7 +606,19 @@ CV can be viewed <a class="info-link" href="CV Alexey Lukiyan 2026.pdf" target="
       title: "Yo-fen Festival",
       category: "Poster",
       bg: "#f5f5f5",
-      desc: `Yo-fen Festival is a conceptual music festival in Berlin that brings together the contemporary electronic music scene, ranging from hyperpop and glitch to experimental electronic music. The goal of the project was to create a visual system capable of reflecting the city's industrial aesthetic and the chaotic nature of contemporary music.<br><br>The development is based on a research project that brought together three leading European design schools: German rationalism, Dutch conceptualism, and French visual poetry.`,
+      desc: `Yo-fen Festival is a conceptual music festival in Berlin that brings together the contemporary electronic music scene, ranging from hyperpop and glitch
+to experimental electronic music. The goal of the project was to create a visual system capable of reflecting the city's industrial aesthetic and the chaotic nature
+of contemporary music.<br /><br />
+The development is based on a research project that brought together three leading European design schools: German rationalism,
+Dutch conceptualism, and French visual poetry.<br /><br />
+The challenge was to integrate a lineup of 75 artists into a unified visual space while maintaining a balance between legibility and the aesthetics of «digital noise».
+The main challenge was to develop a design that looks like an «artifact» of Berlin's nightlife, existing at the intersection of the analog and digital worlds.<br /><br />
+The visual style is built on the metaphor of «broken HTML» and industrial brutalism.<br />
+German vector: Structural grid, monospaced typography, and a «systematic» approach to data layout.<br />
+Dutch vector: Intelligent layering of elements, use of overprinting, and the transformation of a data set into an abstract texture.<br />
+French vector: Emotional gesture, working with rhythm and the «poetics of error,» which makes the festival feel alive and close to the audience.<br /><br />
+The result is a series of three posters, each of which interprets the festival's philosophy in a different way. The project demonstrates a synthesis
+of analytical design and sensory, emotional communication.`,
       images: [
         {
           src: "YOFEN.png",
@@ -703,9 +784,14 @@ const PROJECTS_BY_CATEGORY = {
  <button class="pill-btn pill-gray" id="btn-back"
           style="position:absolute;top:60px;left:148.8px;"><span>Back</span></button>
 
-  <!-- Плашка с описанием проекта -->
-  <div class="panel panel--desc" id="panel-desc"></div>
-
+<!-- Плашка с описанием проекта -->
+  <div class="panel--desc" id="panel-desc">
+    <div class="desc-content" id="desc-content"></div>
+    <div class="right-strip">
+      <div class="scroll-thumb-desc" id="scroll-thumb-desc"></div>
+    </div>
+  </div>
+  
   <!-- Галерея превью (правая колонка) -->
   <div class="thumbs-col" id="thumbs-col"></div>
 
@@ -953,14 +1039,35 @@ function openProject(proj) {
 
   // Плашка описания проекта
   const panelDesc = document.getElementById('panel-desc');
-  panelDesc.innerHTML = proj.desc;
-  panelDesc.style.top  = '19.2px';
-  panelDesc.style.left = '276px';
+  const descContent = document.getElementById('desc-content');
+  const thumbDesc = document.getElementById('scroll-thumb-desc');
+
+  // Наполняем текстом
+  descContent.innerHTML = `
+    <div class="triangle"></div>
+    <span>${proj.desc}</span>
+  `;
+
+  panelDesc.style.top  = '24px';
+  panelDesc.style.left = '348px';
+
   if (!panelDesc._draggable) {
     makeDraggable(panelDesc);
     panelDesc._draggable = true;
   }
   showPanel(panelDesc);
+
+  // Бегунок скролла
+  const updateDescThumb = () => {
+    const ratio = descContent.clientHeight / descContent.scrollHeight;
+    const thumbTop = (descContent.scrollTop / descContent.scrollHeight) * 120;
+    thumbDesc.style.top = thumbTop + 'px';
+    thumbDesc.style.display = ratio >= 1 ? 'none' : 'block';
+  };
+  descContent.removeEventListener('scroll', descContent._scrollHandler || null);
+  descContent._scrollHandler = updateDescThumb;
+  descContent.addEventListener('scroll', updateDescThumb);
+  updateDescThumb();
 
   // Превью картинок
   const thumbsCol = document.getElementById('thumbs-col');
@@ -974,12 +1081,8 @@ function openProject(proj) {
     thumbsCol.appendChild(el);
   });
 
-  // Главная картинка — первая по умолчанию
   openImage(0);
-
-  // Кнопка Back
   document.getElementById('btn-back-images').classList.remove('visible');
-
   showScreen('screen-project');
 }
 
