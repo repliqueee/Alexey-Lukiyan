@@ -776,14 +776,13 @@ const PROJECTS_BY_CATEGORY = {
 <div id="screen-project" class="screen">
   <div class="bg" id="project-bg"></div>
 
-  <img id="avatar-proj" src="" alt="Avatar"
-       style="position:absolute;top:19.2px;left:19.2px;width:120px;height:120px;object-fit:cover;border-radius:6px;z-index:10;" />
+ <img id="avatar-proj" src="" alt="Avatar"
+       style="position:absolute;top:24px;left:24px;width:120px;height:120px;object-fit:cover;border-radius:0px;z-index:10;" />
 
   <button class="pill-btn pill-yellow" id="btn-name-proj"
-          style="position:absolute;top:19.2px;left:148.8px;"></button>
- <button class="pill-btn pill-gray" id="btn-back"
-          style="position:absolute;top:60px;left:148.8px;"><span>Back</span></button>
-
+          style="position:absolute;top:24px;left:150px;"></button>
+  <button class="pill-btn pill-gray" id="btn-back"
+          style="position:absolute;top:84px;left:188.4px;"><span>Back</span></button>
 <!-- Плашка с описанием проекта -->
   <div class="panel--desc" id="panel-desc">
     <div class="desc-content" id="desc-content"></div>
@@ -1102,36 +1101,48 @@ function openImage(index) {
   mainImg.src = imgData.src;
   mainImg.onload = () => { mainImg.style.opacity = '1'; };
 
-  // Обновляем плашку: описание ЭТОЙ картинки
-  const panelDesc = document.getElementById('panel-desc');
-  panelDesc.innerHTML = imgData.desc;
-  panelDesc.scrollTop = 0;
+  // Обновляем ТОЛЬКО desc-content, не всю плашку
+  const descContent = document.getElementById('desc-content');
+  if (descContent) {
+    descContent.innerHTML = `<div class="triangle"></div><span>${imgData.desc}</span>`;
+    descContent.scrollTop = 0;
+  }
 
   // Подсвечиваем активный превью
   document.querySelectorAll('.thumb-img').forEach((el, i) => {
     el.classList.toggle('active', i === index);
   });
 }
-
 // ================================================================
 // КНОПКИ НАВИГАЦИИ НА СТРАНИЦЕ ПРОЕКТА
 // ================================================================
 document.getElementById('btn-back').addEventListener('click', () => {
-  // Возврат на главную (восстанавливаем плашку проектов открытой)
   const panelDesc = document.getElementById('panel-desc');
-  hidePanel(panelDesc);
+  panelDesc.classList.remove('visible');
+  panelDesc.style.display = 'none';
+  panelDesc.style.opacity = '0';
+
+  // Сбрасываем desc-content чтобы не было мусора при следующем открытии
+  const descContent = document.getElementById('desc-content');
+  if (descContent) descContent.innerHTML = '';
+
   showScreen('screen-home');
-  // Показываем плашку проектов снова
-  showPanel(document.getElementById('panel-projects'));
+
+  // Показываем плашку проектов
+  const panelProj = document.getElementById('panel-projects');
+  panelProj.style.display = 'flex';
+  panelProj.classList.add('visible');
+  requestAnimationFrame(() => { panelProj.style.opacity = '1'; });
 });
 
 document.getElementById('btn-back-images').addEventListener('click', () => {
-  // Сбросить выбранную картинку, показать описание проекта
   const proj = state.currentProject;
   if (!proj) return;
-  const panelDesc = document.getElementById('panel-desc');
-  panelDesc.innerHTML = proj.desc;
-  panelDesc.scrollTop = 0;
+  const descContent = document.getElementById('desc-content');
+  if (descContent) {
+    descContent.innerHTML = `<div class="triangle"></div><span>${proj.desc}</span>`;
+    descContent.scrollTop = 0;
+  }
   document.querySelectorAll('.thumb-img').forEach(el => el.classList.remove('active'));
   document.getElementById('btn-back-images').classList.remove('visible');
 });
