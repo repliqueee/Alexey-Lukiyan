@@ -553,6 +553,8 @@
   border-radius: 12px;
 }
 
+  
+  
   /* ===== МОБИЛЬНЫЕ СТИЛИ ===== */
   @media (max-width: 640px) {
     #avatar { width: 84px; height: 84px; top: 12px; left: 12px; }
@@ -880,9 +882,17 @@ function makeDraggable(el) {
   const isMobile = () => window.innerWidth <= 640;
 
   // --- Mouse drag ---
-  el.addEventListener('mousedown', e => {
+el.addEventListener('mousedown', e => {
     if (isMobile()) return;
     if (e.button !== 0) return;
+    // Не перехватываем клики на скроллбаре и его элементах
+    if (e.target.closest('.scroll-strip') || 
+        e.target.closest('.scroll-thumb') ||
+        e.target.closest('.scroll-thumb-desc') ||
+        e.target.closest('.right-strip') ||
+        e.target.closest('.desc-content') ||
+        e.target.closest('.info-content') ||
+        e.target.closest('.projects-list')) return;
     e.preventDefault();
     el.classList.add('dragging');
     const rect = el.getBoundingClientRect();
