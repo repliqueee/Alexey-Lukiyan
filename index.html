@@ -1171,12 +1171,13 @@ function openImage(index) {
   state.currentImage = index;
 
   const imgData = proj.images[index];
+  if (!imgData) return;
 
-  // Большая картинка
   const mainImg = document.getElementById('main-image');
-  mainImg.style.opacity = '0';
+  
+  // Сразу показываем, не ждём onload
+  mainImg.style.opacity = '1';
   mainImg.src = imgData.src;
-  mainImg.onload = () => { mainImg.style.opacity = '1'; };
 
   // Подсвечиваем активный превью
   document.querySelectorAll('.thumb-img').forEach((el, i) => {
